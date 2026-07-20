@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # Internal PostgreSQL Database for Airflow's own metadata storage
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    ports:
+      - "5435:5432" # mapped to 5435 to avoid conflict with host's main PostgreSQL on 5432
+    volumes:
+      - airflow-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Airflow Initialization Container
+  airflow-init:
+    image: apache/airflow:2.10.5
+    depends_on:
+      - postgres
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      _PIP_ADDITIONAL_REQUIREMENTS: 'apache-airflow-providers-postgres<5.0.0 apache-airflow-providers-apache-spark<5.0.0 --no-deps'
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        airflow db init
+        airflow users create \
+          --username admin \
+          --password admin \
+          --firstname Admin \
+          --lastname User \
+          --role Admin \
+          --email admin@example.com
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ../src:/opt/airflow/src
+      - ../data:/opt/airflow/data
+
+  # Airflow Webserver (UI portal available at http://localhost:8080)
+  airflow-webserver:
+    image: apache/airflow:2.10.5
+    command: webserver
+    depends_on:
+      - postgres
+      - airflow-init
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__WEBSERVER__EXPOSE_CONFIG: 'true'
+      _PIP_ADDITIONAL_REQUIREMENTS: 'apache-airflow-providers-postgres<5.0.0 apache-airflow-providers-apache-spark<5.0.0 --no-deps'
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ../src:/opt/airflow/src
+      - ../data:/opt/airflow/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # Resolves the host IP for connecting to your local PostgreSQL database
+    restart: always
+
+  # Airflow Scheduler (Orchestrates and triggers task runs)
+  airflow-scheduler:
+    image: apache/airflow:2.10.5
+    command: scheduler
+    depends_on:
+      - postgres
+      - airflow-init
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      _PIP_ADDITIONAL_REQUIREMENTS: 'apache-airflow-providers-postgres<5.0.0 apache-airflow-providers-apache-spark<5.0.0 --no-deps'
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ../src:/opt/airflow/src
+      - ../data:/opt/airflow/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # Resolves the host IP for connecting to your local PostgreSQL database
+    restart: always
+
+volumes:
+  airflow-db-data:
