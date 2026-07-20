@@ -1,0 +1,92 @@
+pipeline:
+  name: netflix_medallion_pipeline
+  version: 1.0.0
+  environment: local
+
+storage:
+  base_path: "d:/Piyu/Netflix project/data"
+  raw_dir: "${storage.base_path}/raw"
+  bronze_dir: "${storage.base_path}/bronze"
+  silver_dir: "${storage.base_path}/silver"
+  gold_dir: "${storage.base_path}/gold"
+
+ingestion:
+  active_source: netflix_csv
+  sources:
+    netflix_csv:
+      format: csv
+      path: "${storage.raw_dir}/netflix_titles.csv"
+      load_type: FULL
+      options:
+        header: "true"
+        inferSchema: "false"
+        delimiter: ","
+        escape: "\""
+        multiLine: "true"
+    netflix_incremental_json:
+      format: json
+      path: "${storage.raw_dir}/netflix_updates.json"
+      load_type: INCREMENTAL
+      options:
+        multiline: "true"
+    netflix_postgres:
+      format: postgres
+      table: "public.netflix_raw"
+      load_type: INCREMENTAL
+      connection_properties:
+        user: "postgres"
+        password: "password"
+        driver: "org.postgresql.Driver"
+        url: "jdbc:postgresql://localhost:5432/netflix_dw"
+    netflix_api:
+      format: rest_api
+      url: "https://api.example.com/netflix/titles"
+      load_type: INCREMENTAL
+      method: GET
+      headers:
+        Authorization: "Bearer mock_token_value_abc123"
+
+silver:
+  null_replacements:
+    director: "Unknown Director"
+    cast: "Unknown Cast"
+    country: "Unknown Country"
+    rating: "UR"
+    duration: "0 min"
+  partition_column: "release_year"
+
+scd_type1:
+  business_key: "show_id"
+  compare_columns:
+    - type
+    - title
+    - date_added
+    - release_year
+    - rating
+    - duration
+    - description
+    - content_age
+    - duration_minutes
+    - season_count
+    - is_recent_release
+
+scd_type2:
+  business_key: "show_id"
+  compare_columns:
+    - type
+    - title
+    - date_added
+    - release_year
+    - rating
+    - duration
+    - description
+    - content_age
+    - duration_minutes
+    - season_count
+    - is_recent_release
+  high_date: "9999-12-31"
+
+incremental_processing:
+  pipeline_name: "netflix_titles_pipeline"
+  load_type: "incremental"  # Options: full, incremental
+  watermark_file_path: "data/metadata/watermarks.json"

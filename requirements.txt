@@ -1,0 +1,5 @@
+pyspark==3.5.1
+psycopg2-binary==2.9.9
+pyyaml==6.0.1
+great-expectations==0.17.15
+pytest==7.4.3

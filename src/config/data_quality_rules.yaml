@@ -1,0 +1,56 @@
+validation_rules:
+  required_columns:
+    - show_id
+    - type
+    - title
+    - director
+    - cast
+    - country
+    - date_added
+    - release_year
+    - rating
+    - duration
+    - listed_in
+    - description
+
+  null_checks:
+    - show_id
+    - title
+    - type
+    - release_year
+
+  unique_checks:
+    - show_id
+
+  datatype_checks:
+    release_year: "IntegerType"
+    date_added: "date"
+
+  value_sets:
+    type:
+      - Movie
+      - TV Show
+    rating:
+      - TV-MA
+      - TV-14
+      - PG
+      - PG-13
+      - R
+      - G
+      - NC-17
+      - TV-G
+      - TV-PG
+      - TV-Y
+      - TV-Y7
+      - TV-Y7-FV
+      - UR
+      - NR
+
+  business_rules:
+    max_release_year: 2026
+    min_title_length: 1
+
+  completeness_checks:
+    - country
+    - listed_in
+    - description

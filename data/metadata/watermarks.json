@@ -1,0 +1,9 @@
+{
+  "netflix_titles_pipeline": {
+    "pipeline_name": "netflix_titles_pipeline",
+    "last_processed_timestamp": "2026-07-16T12:26:41.363049",
+    "last_successful_batch": "e50a94a3-2b2a-4ca6-98e4-455c176205f6",
+    "last_run_time_ms": 58689,
+    "updated_at": "2026-07-16T06:58:23.871622"
+  }
+}

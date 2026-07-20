@@ -1,0 +1,68 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Pytest / coverage
+.cache
+.pytest_cache/
+.nosetests
+htmlcov/
+.tohcov
+.coverage
+.coverage.*
+.hypothesis/
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE / Editor configuration
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local database / raw files data directory
+data/raw/*
+!data/raw/netflix_titles.csv
+!data/raw/netflix_updates.json
+data/bronze/
+data/silver/
+data/gold/
+data/rejected_records/
+data/transformation_rejects/
+data/metadata/*.json
+!data/metadata/watermarks.json
+data/metadata/pipeline_runs_audit.json
+data/metadata/pipeline_steps_audit.json
+
+# Spark temporary directories / files
+spark-warehouse/
+metastore_db/
+derby.log
+checkpoint/

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Quality Report - Netflix Pipeline</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F3F4F6;
+            margin: 0;
+            padding: 40px;
+            color: #1F2937;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #E5E7EB;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #111827;
+        }
+        .status-badge {
+            background-color: #EF4444;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .metric-card {
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #6B7280;
+            text-transform: uppercase;
+        }
+        .metric-card p {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #111827;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Netflix Data Quality Validation Report</h1>
+            <span class="status-badge">FAILED</span>
+        </div>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>Total Expectations</h3>
+                <p>18</p>
+            </div>
+            <div class="metric-card">
+                <h3>Passed</h3>
+                <p style="color: #10B981;">7</p>
+            </div>
+            <div class="metric-card">
+                <h3>Failed</h3>
+                <p style="color: #EF4444;">11</p>
+            </div>
+            <div class="metric-card">
+                <h3>Duration (ms)</h3>
+                <p>8559.07</p>
+            </div>
+        </div>
+        <p style="color: #6B7280; font-size: 12px; margin-top: 50px;">Report Generated: 2026-07-16T06:30:10.415262 UTC</p>
+    </div>
+</body>
+</html>

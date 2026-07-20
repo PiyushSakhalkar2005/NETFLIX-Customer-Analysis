@@ -1,0 +1,51 @@
+NETFLIX DATA ENGINEERING PIPELINE - SIMPLE EXPLANATION
+======================================================
+
+1. THE BIG PICTURE
+------------------
+Think of this project as a "smart factory assembly line" for Netflix data. 
+It takes messy, raw data files, cleans them, checks them for errors, 
+organizes them, and feeds them into a database so a Power BI dashboard 
+can display clean, interactive charts.
+
+
+2. THE STEP-BY-STEP DATA FLOW
+-----------------------------
+[ Messy Data ] -> [ 1. Raw Box ] -> [ 2. Quality Checker ] -> [ 3. Cleaning & Sorting ] -> [ 4. History Tracker ] -> [ 5. Final Charts ]
+
+STEP 1: The Raw Box (Bronze Layer)
+- What it does: We take the raw Netflix files (CSV/JSON/API) and save them into a folder called the Bronze layer.
+- Why we do it: We stamp every file with the exact date and time it arrived. This makes it easy to trace where the data came from.
+
+STEP 2: The Quality Checker (Great Expectations Framework)
+- What it does: Before the data goes into the database, it must pass a test based on our rules.
+- How it works: If a movie has a missing title, or a release year in the future, it is automatically pulled out and sent to a "Quarantine/Rejected" folder. A label is added explaining exactly what was wrong. Only clean data is allowed to move forward.
+
+STEP 3: Cleaning & Sorting (Silver Layer)
+- What it does: We clean up spelling, fill in blank spots with "Unknown", and sort the data.
+- How it works: In the raw files, multiple actors, genres, or countries are typed together separated by commas. We split them up and put them into separate lists (e.g., an Actor list, a Director list, and a Genre list) so they are neat and organized.
+
+STEP 4: Tracking History (SCD - Slowly Changing Dimensions)
+- What it does: When details about a movie change, we don't want to lose the old data.
+- How it works: If a show's details get updated, we keep the old record (marked as inactive) and insert the new record with a start and end date. This allows us to look back at the history of updates at any time.
+
+STEP 5: The Final Warehouse (Gold Layer)
+- What it does: We link all our clean lists back together into one master table called Gold.
+- Why we do it: We assign unique ID codes (surrogate keys) to every title, actor, and country. Using these IDs makes the database run searches and calculations extremely fast.
+
+STEP 6: The Dashboard Views & Automation
+- What it does: We created simple summary lists (SQL views) in PostgreSQL that calculate total movies, top countries, and release trends. Power BI connects to these views to draw the charts.
+- Automation: We use a scheduler called Airflow to run this entire factory process automatically every single day.
+
+
+3. COMMONLY ASKED PRESENTATION QUESTIONS
+----------------------------------------
+
+Q1: Why use PySpark instead of standard Python Pandas?
+A1: Pandas is designed for smaller datasets that fit inside one computer's RAM. PySpark is designed for large-scale data processing across multiple computers in parallel. This allows our pipeline to handle billions of rows smoothly.
+
+Q2: How does the pipeline avoid processing the same files again?
+A2: We use a watermark manager. The pipeline records the timestamp of the last processed record. The next time it runs, it only reads files with a timestamp greater than that watermark.
+
+Q3: What happens if a record fails data validation checks?
+A3: The bad record is separated, stamped with the exact error reason, and written to a quarantined folder (rejected records) for debugging. It never enters the main database, keeping our analytics clean.
