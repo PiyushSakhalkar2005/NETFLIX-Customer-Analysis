@@ -21,7 +21,7 @@ except ImportError:
     sys.modules["typing.io"] = typing_io
 
 from pyspark.sql import SparkSession, DataFrame
-from pyspark.sql.functions import col, max as spark_max, lit
+from pyspark.sql.functions import col, max as spark_max, lit, to_timestamp
 
 from src.utils.logger import get_logger
 from src.utils.config_loader import ConfigLoader
@@ -48,8 +48,10 @@ class IncrementalEngine:
         self.watermark_mgr = WatermarkManager(self.config)
         self.audit_mgr = AuditManager(self.config)
         
+        pipeline_conf = self.config.get("pipeline", {})
         inc_conf = self.config.get("incremental_processing", {})
-        self.load_type_override = inc_conf.get("load_type", "incremental").lower()
+        mode_str = pipeline_conf.get("execution_mode") or inc_conf.get("execution_mode") or inc_conf.get("load_type", "INCREMENTAL")
+        self.execution_mode = str(mode_str).upper()
         self.business_key = inc_conf.get("business_key", "show_id")
         
     def run_pipeline(self, batch_id: str, run_id: str, force_full_load: bool = False) -> Dict[str, Any]:
@@ -58,19 +60,20 @@ class IncrementalEngine:
         standardizes the delta, merges it via SCD Type 1 or 2, rebuilds the Gold Star schema,
         and saves a new watermark checkpoint. Logs metadata details for auditing.
         """
-        logger.info(f"Initiating Incremental Pipeline execution. Run ID: {run_id}, Batch ID: {batch_id}")
         start_time = time.time()
+        is_full_load = force_full_load or (self.execution_mode == "FULL")
+        effective_mode = "FULL" if is_full_load else "INCREMENTAL"
+        
+        logger.info(f"Initiating Medallion Pipeline execution. Mode: {effective_mode}, Run ID: {run_id}, Batch ID: {batch_id}")
         
         # 1. Start pipeline run audit record
-        self.audit_mgr.start_run(run_id, "netflix_titles_pipeline", batch_id)
+        self.audit_mgr.start_run(run_id, "netflix_titles_pipeline", batch_id, execution_mode=effective_mode)
         
         storage = self.config.get("storage", {})
         bronze_dir = storage.get("bronze_dir")
         silver_dir = storage.get("silver_dir")
         gold_dir = storage.get("gold_dir")
         
-        # Determine active load type: Full or Incremental
-        is_full_load = force_full_load or (self.load_type_override == "full")
         watermark = self.watermark_mgr.get_watermark()
         last_processed = watermark["last_processed_timestamp"]
         
@@ -81,7 +84,7 @@ class IncrementalEngine:
             if not os.path.exists(bronze_dir):
                 logger.warning("Bronze parent directory does not exist. Pipeline aborted.")
                 self.audit_mgr.log_step(run_id, "Bronze", "FAILED", int((time.time() - bronze_start)*1000), error_message="No Bronze directory found")
-                self.audit_mgr.end_run(run_id, "FAILED")
+                self.audit_mgr.end_run(run_id, "FAILED", error_details="No Bronze directory found")
                 return {"status": "SKIPPED", "reason": "No Bronze directory found"}
                 
             bronze_subdirs = [
@@ -92,7 +95,7 @@ class IncrementalEngine:
             if not bronze_subdirs:
                 logger.warning("No Bronze subdirectories (starting with bronze_) found. Pipeline aborted.")
                 self.audit_mgr.log_step(run_id, "Bronze", "FAILED", int((time.time() - bronze_start)*1000), error_message="No Bronze subfolders found")
-                self.audit_mgr.end_run(run_id, "FAILED")
+                self.audit_mgr.end_run(run_id, "FAILED", error_details="No Bronze subfolders found")
                 return {"status": "SKIPPED", "reason": "No Bronze subfolders found"}
                 
             df_bronze = None
@@ -116,9 +119,14 @@ class IncrementalEngine:
                 if "source_system" not in df_sub.columns:
                     df_sub = df_sub.withColumn("source_system", lit("JSON_INGEST"))
                     
+                if "release_year" in df_sub.columns:
+                    df_sub = df_sub.withColumn("release_year", col("release_year").cast("string"))
+                    
                 if df_bronze is None:
                     df_bronze = df_sub
                 else:
+                    if "release_year" in df_bronze.columns:
+                        df_bronze = df_bronze.withColumn("release_year", col("release_year").cast("string"))
                     common_cols = list(set(df_bronze.columns).intersection(set(df_sub.columns)))
                     df_bronze = df_bronze.select(common_cols).unionByName(df_sub.select(common_cols))
                     
@@ -132,7 +140,7 @@ class IncrementalEngine:
             else:
                 logger.info(f"Performing Incremental Load. Filtering for updates after watermark: {last_processed}")
                 # Filter rows where ingestion_timestamp is greater than the watermark timestamp
-                df_delta = df_bronze.filter(col("ingestion_timestamp") > last_processed)
+                df_delta = df_bronze.filter(col("ingestion_timestamp") > lit(last_processed).cast("timestamp"))
                 
             records_processed = df_delta.count()
             logger.info(f"Bronze delta count to process: {records_processed} (Total Bronze: {total_bronze_records})")
@@ -140,13 +148,20 @@ class IncrementalEngine:
             if records_processed == 0:
                 logger.info("No new records since last watermark checkpoint. Pipeline skipped successfully.")
                 self.audit_mgr.log_step(run_id, "Bronze_Delta_Filter", "SKIPPED", 0)
-                self.audit_mgr.end_run(run_id, "SKIPPED")
+                self.audit_mgr.end_run(
+                    run_id, "SKIPPED", 
+                    watermark_timestamp=last_processed, 
+                    rows_read=total_bronze_records, 
+                    rows_inserted=0, 
+                    rows_updated=0, 
+                    rows_skipped=total_bronze_records
+                )
                 return {
                     "status": "SKIPPED",
                     "records_processed": 0,
                     "inserted": 0,
                     "updated": 0,
-                    "skipped": 0,
+                    "skipped": total_bronze_records,
                     "execution_time_ms": (time.time() - start_time) * 1000
                 }
                 
@@ -220,28 +235,32 @@ class IncrementalEngine:
                 shutil.rmtree(path, ignore_errors=True)
                 
             # 6. Capture new Watermark max value from the delta batch and convert to string format
-            max_timestamp_row = df_delta.select(spark_max("ingestion_timestamp").alias("max_ts")).first()
-            max_ts_val = max_timestamp_row["max_ts"]
-            if max_ts_val:
-                if hasattr(max_ts_val, "isoformat"):
-                    new_watermark_ts = max_ts_val.isoformat()
-                else:
-                    new_watermark_ts = str(max_ts_val)
+            max_ts_row = df_delta.select(spark_max("ingestion_timestamp").cast("string").alias("max_ts")).first()
+            if max_ts_row and max_ts_row["max_ts"]:
+                new_watermark_ts = max_ts_row["max_ts"]
             else:
                 new_watermark_ts = last_processed
             
             # Save watermark checkpoint
             elapsed_time_ms = int((time.time() - start_time) * 1000)
-            self.watermark_mgr.update_watermark(new_watermark_ts, batch_id, elapsed_time_ms)
+            self.watermark_mgr.update_watermark(new_watermark_ts, batch_id, elapsed_time_ms, business_key=self.business_key)
             
             # Close run audit record
             spark_app_id = self.spark.sparkContext.applicationId
-            self.audit_mgr.end_run(run_id, "SUCCESS", spark_app_id)
+            self.audit_mgr.end_run(
+                run_id, "SUCCESS", spark_app_id, 
+                watermark_timestamp=new_watermark_ts,
+                rows_read=records_processed,
+                rows_inserted=inserted,
+                rows_updated=expired,
+                rows_skipped=0
+            )
             
-            logger.info(f"Pipeline run {run_id} completed successfully. processed={records_processed}, inserted={inserted}, updated={expired}")
+            logger.info(f"Pipeline run {run_id} completed successfully ({effective_mode} mode). processed={records_processed}, inserted={inserted}, updated={expired}")
             
             return {
                 "status": "SUCCESS",
+                "mode": effective_mode,
                 "records_processed": records_processed,
                 "inserted": inserted,
                 "updated": expired,
@@ -250,8 +269,8 @@ class IncrementalEngine:
             }
             
         except Exception as e:
-            logger.error(f"Incremental pipeline execution failed: {str(e)}", exc_info=True)
+            logger.error(f"Medallion pipeline execution failed: {str(e)}", exc_info=True)
             self.audit_mgr.log_step(run_id, "Pipeline", "FAILED", int((time.time() - start_time)*1000), error_message=str(e))
-            self.audit_mgr.end_run(run_id, "FAILED")
+            self.audit_mgr.end_run(run_id, "FAILED", error_details=str(e))
             NotificationManager.send_alert(run_id, "IncrementalEngine", str(e))
             raise IncrementalEngineException(f"Incremental Engine run failed: {str(e)}") from e

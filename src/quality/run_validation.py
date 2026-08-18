@@ -2,6 +2,7 @@ import os
 import sys
 import argparse
 import json
+import uuid
 from datetime import datetime
 
 # Ensure project root is in system path
@@ -67,19 +68,27 @@ def update_metadata_log(metrics: dict):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Netflix Data Pipeline - Data Quality Validator")
     parser.add_argument("--source", type=str, required=True, help="Bronze table source name (e.g. netflix_csv)")
-    parser.add_argument("--batch-id", type=str, required=True, help="Batch ID generated during Bronze ingestion")
+    parser.add_argument("--batch-id", type=str, required=False, default=None, help="Batch ID generated during Bronze ingestion")
     args = parser.parse_args()
+    batch_id = args.batch_id or str(uuid.uuid4())
     
     config = ConfigLoader.load()
     bronze_dir = config.get("storage", {}).get("bronze_dir")
-    bronze_source_path = os.path.join(bronze_dir, f"bronze_{args.source}")
     
-    if not os.path.exists(bronze_source_path):
-        logger.error(f"Bronze source directory not found at: {bronze_source_path}")
-        print("VALIDATION_FAILED: Bronze path not found")
-        sys.exit(1)
+    if args.source.lower() in ["all", "multi"]:
+        sources = ["netflix_csv", "netflix_json", "netflix_xml"]
+    elif "," in args.source:
+        sources = [s.strip() for s in args.source.split(",")]
+    else:
+        sources = [args.source]
         
-    spark = init_spark(f"DQ_Validation_{args.source}")
+    spark = init_spark(f"DQ_Validation_MultiSource")
+    
+    for src in sources:
+        bronze_source_path = os.path.join(bronze_dir, f"bronze_{src}")
+        if not os.path.exists(bronze_source_path):
+            logger.warning(f"Bronze source directory not found at: {bronze_source_path}. Skipping...")
+            continue
     
     try:
         # Load dataset from Bronze
@@ -96,19 +105,19 @@ if __name__ == "__main__":
         dq = DataQualityFramework(spark)
         
         # 1. Run GE Checks
-        success, ge_summary = dq.validate_dataset(df, args.source, args.batch_id)
+        success, ge_summary = dq.validate_dataset(df, args.source, batch_id)
         
         # 2. Extract and Save Rejected records in Spark
         rejected_dir = os.path.join(project_root, "data", "rejected_records")
-        passed_count, failed_count = dq.extract_and_save_rejected(df, rejected_dir, args.batch_id)
+        passed_count, failed_count = dq.extract_and_save_rejected(df, rejected_dir, batch_id)
         
         # 3. Generate HTML report
-        report_path = os.path.join(project_root, "docs", "reports", f"dq_report_{args.batch_id}.html")
+        report_path = os.path.join(project_root, "docs", "reports", f"dq_report_{batch_id}.html")
         dq.generate_html_report(ge_summary, report_path)
         
         # 4. Save metadata audit log
         metrics = {
-            "batch_id": args.batch_id,
+            "batch_id": batch_id,
             "source_name": args.source,
             "validation_timestamp": datetime.utcnow().isoformat(),
             "records_validated": row_count,

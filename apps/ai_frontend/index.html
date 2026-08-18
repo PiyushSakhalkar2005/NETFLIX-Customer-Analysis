@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix AI Analytics | Intelligence Platform</title>
+    <meta name="description" content="Production-grade Agentic AI Analytics Platform for Netflix Data Warehouse.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Netflix Brand Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">NETFLIX</div>
+                <div class="brand-sub">AI Analytics</div>
+            </div>
+
+            <!-- Connection Status -->
+            <div class="status-card" id="dw-status">
+                <div class="status-indicator online"></div>
+                <div class="status-details">
+                    <span class="status-title">PostgreSQL Warehouse</span>
+                    <span class="status-subtitle" id="dw-name">netflix_dw_new (Gold Layer)</span>
+                </div>
+            </div>
+
+            <!-- Power BI Active Context Card -->
+            <div id="pbi-context-card" class="pbi-context-box" style="display: none;">
+                <div class="pbi-header">
+                    <span class="pbi-badge-title">⚡ Power BI Context</span>
+                    <button id="btn-reset-context" class="pbi-reset-btn" title="Reset Power BI Filter">← Reset</button>
+                </div>
+                <span id="pbi-context-text" class="pbi-context-val"></span>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-tab="chat">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    Netflix AI Analyst
+                </button>
+                <button class="nav-btn" data-tab="kpis">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    Executive KPIs
+                </button>
+                <button class="nav-btn" data-tab="schema">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 7V4h16v3M9 20h6M12 7v13"></path></svg>
+                    Gold Schema Inspector
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="powerbi-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F2C94C" stroke-width="2.2"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg>
+                    <span>Power BI Integration Connected</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Portal -->
+        <main class="main-content">
+            <!-- Top App Bar Header -->
+            <header class="top-header">
+                <div class="header-title">
+                    <h1>Netflix Agentic AI Analytics Platform</h1>
+                    <p>Powered by PySpark Medallion Architecture & PostgreSQL Gold Star Schema</p>
+                </div>
+                <div class="header-actions">
+                    <a href="http://localhost:8000/docs" target="_blank" class="btn-secondary">API Docs</a>
+                    <button id="btn-clear-chat" class="btn-secondary">Clear Chat</button>
+                </div>
+            </header>
+
+            <!-- TAB 1: AI Chat Assistant -->
+            <section id="tab-chat" class="tab-page active">
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-messages">
+                        <!-- Welcome Hero Message -->
+                        <div class="message system-msg">
+                            <div class="msg-avatar">N</div>
+                            <div class="msg-content">
+                                <h3>Welcome to Netflix AI Analytics 🎬</h3>
+                                <p>Ask questions about content growth, regional distributions, machine learning forecasts, or domain metric definitions across <strong>8,807 titles</strong> in the Gold Warehouse.</p>
+                                
+                                <div class="prompt-suggestions">
+                                    <span class="suggestion-title">Suggested Prompts:</span>
+                                    <div class="prompt-chips">
+                                        <button class="chip" data-prompt="What are the top 5 countries by Netflix content?">🌍 Top 5 Countries</button>
+                                        <button class="chip" data-prompt="What is the Movie vs TV Show ratio?">📊 Movie vs TV Ratio</button>
+                                        <button class="chip" data-prompt="Analyze Netflix content growth.">📈 Analyze Content Growth</button>
+                                        <button class="chip" data-prompt="Which countries have unusual content patterns?">🔍 Unusual Patterns (ML)</button>
+                                        <button class="chip" data-prompt="Predict content growth.">🔮 Predict Growth (ML)</button>
+                                        <button class="chip" data-prompt="What does Movie Ratio mean?">ℹ️ What does Movie Ratio mean?</button>
+                                        <button class="chip" data-prompt="Why is the US dominant?">🇺🇸 Why is the US dominant?</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input Form Bar -->
+                    <div class="chat-input-area">
+                        <form id="chat-form">
+                            <div class="input-wrapper">
+                                <input type="text" id="user-input" placeholder="Ask Netflix AI about content trends, ML forecasts, or country analytics..." autocomplete="off">
+                                <button type="submit" id="send-btn">
+                                    <span>Ask Netflix AI</span>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: Executive KPIs -->
+            <section id="tab-kpis" class="tab-page">
+                <div class="section-title">
+                    <h2>Executive Warehouse KPIs</h2>
+                    <p>Verified baseline aggregations computed directly from <code>gold.fact_content</code> & <code>silver.silver_titles</code></p>
+                </div>
+                <div class="kpi-grid" id="kpi-cards-grid">
+                    <div class="kpi-card loading"><div class="spinner"></div></div>
+                </div>
+            </section>
+
+            <!-- TAB 3: Gold Schema Inspector -->
+            <section id="tab-schema" class="tab-page">
+                <div class="section-title">
+                    <h2>PostgreSQL Gold Star Schema & Metadata Views</h2>
+                    <p>Live column definitions and physical schemas powering Netflix AI queries</p>
+                </div>
+                <div class="schema-inspector" id="schema-content">
+                    <div class="spinner"></div> Loading Gold Schema...
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

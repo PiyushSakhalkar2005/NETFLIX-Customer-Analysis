@@ -1,0 +1,137 @@
+{
+  "total_titles": {
+    "source": "silver.silver_titles",
+    "column": "show_id",
+    "grain": "distinct_title",
+    "filter": "NONE",
+    "aggregation": "COUNT",
+    "expected_value": 8807,
+    "unit": "titles",
+    "powerbi_view": "metadata.v_kpi_general_summary.total_titles"
+  },
+  "total_movies": {
+    "source": "silver.silver_titles",
+    "column": "show_id",
+    "grain": "distinct_title",
+    "filter": "type = 'Movie'",
+    "aggregation": "COUNT",
+    "expected_value": 6131,
+    "unit": "titles",
+    "powerbi_view": "metadata.v_kpi_general_summary.total_movies"
+  },
+  "total_tv_shows": {
+    "source": "silver.silver_titles",
+    "column": "show_id",
+    "grain": "distinct_title",
+    "filter": "type = 'TV Show'",
+    "aggregation": "COUNT",
+    "expected_value": 2676,
+    "unit": "titles",
+    "powerbi_view": "metadata.v_kpi_general_summary.total_tv_shows"
+  },
+  "movie_ratio": {
+    "source": "silver.silver_titles",
+    "column": "type",
+    "grain": "distinct_title",
+    "filter": "NONE",
+    "aggregation": "COUNT(Movie)/COUNT(*)*100",
+    "expected_value": 69.62,
+    "unit": "%",
+    "powerbi_view": "DAX: Movie Ratio %"
+  },
+  "tv_ratio": {
+    "source": "silver.silver_titles",
+    "column": "type",
+    "grain": "distinct_title",
+    "filter": "NONE",
+    "aggregation": "COUNT(TV Show)/COUNT(*)*100",
+    "expected_value": 30.38,
+    "unit": "%",
+    "powerbi_view": "DAX: TV Show Ratio %"
+  },
+  "average_content_age": {
+    "source": "silver.silver_titles",
+    "column": "content_age",
+    "grain": "distinct_title",
+    "filter": "NONE",
+    "aggregation": "AVG",
+    "expected_value": 11.8,
+    "unit": "years",
+    "powerbi_view": "metadata.v_kpi_general_summary.average_content_age"
+  },
+  "average_movie_duration": {
+    "source": "silver.silver_titles",
+    "column": "duration",
+    "grain": "distinct_title",
+    "filter": "type = 'Movie' AND duration LIKE '%min%'",
+    "aggregation": "AVG(SPLIT_PART(duration, ' ', 1))",
+    "expected_value": 99.5,
+    "unit": "minutes",
+    "powerbi_view": "N/A"
+  },
+  "longest_movie": {
+    "source": "silver.silver_titles",
+    "column": "duration",
+    "grain": "distinct_title",
+    "filter": "type = 'Movie'",
+    "aggregation": "MAX(SPLIT_PART(duration, ' ', 1))",
+    "expected_value": 312,
+    "expected_title": "Black Mirror: Bandersnatch",
+    "unit": "minutes",
+    "powerbi_view": "N/A"
+  },
+  "shortest_movie": {
+    "source": "silver.silver_titles",
+    "column": "duration",
+    "grain": "distinct_title",
+    "filter": "type = 'Movie' AND duration > 0",
+    "aggregation": "MIN(SPLIT_PART(duration, ' ', 1))",
+    "expected_value": 3,
+    "expected_title": "Silent",
+    "unit": "minutes",
+    "powerbi_view": "N/A"
+  },
+  "average_tv_seasons": {
+    "source": "silver.silver_titles",
+    "column": "duration",
+    "grain": "distinct_title",
+    "filter": "type = 'TV Show'",
+    "aggregation": "AVG(SPLIT_PART(duration, ' ', 1))",
+    "expected_value": 1.76,
+    "unit": "seasons",
+    "powerbi_view": "N/A"
+  },
+  "top_country": {
+    "source": "metadata.v_kpi_country_distribution",
+    "column": "country_name",
+    "grain": "country_level",
+    "filter": "ORDER BY titles_count DESC LIMIT 1",
+    "aggregation": "COUNT(DISTINCT title_key)",
+    "expected_value": 3690,
+    "expected_name": "United States",
+    "unit": "titles",
+    "powerbi_view": "metadata.v_kpi_country_distribution"
+  },
+  "top_genre": {
+    "source": "metadata.v_kpi_genre_distribution",
+    "column": "genre_name",
+    "grain": "genre_level",
+    "filter": "ORDER BY titles_count DESC LIMIT 1",
+    "aggregation": "COUNT(DISTINCT title_key)",
+    "expected_value": 2752,
+    "expected_name": "International Movies",
+    "unit": "titles",
+    "powerbi_view": "metadata.v_kpi_genre_distribution"
+  },
+  "peak_release_year": {
+    "source": "gold.fact_content",
+    "column": "release_year",
+    "grain": "distinct_title",
+    "filter": "GROUP BY release_year ORDER BY COUNT DESC LIMIT 1",
+    "aggregation": "COUNT(DISTINCT title_key)",
+    "expected_value": 1147,
+    "expected_year": 2018,
+    "unit": "titles",
+    "powerbi_view": "gold.fact_content"
+  }
+}

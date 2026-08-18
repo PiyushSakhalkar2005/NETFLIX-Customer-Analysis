@@ -1,16 +1,58 @@
 [
   {
-    "show_id": "s6",
+    "show_id": "s1",
     "type": "Movie",
-    "title": "Midnight Mass",
-    "director": "Mike Flanagan",
-    "cast": "Kate Siegel, Zach Gilford",
+    "title": "Dick Johnson Is Dead (Extended Edition)",
+    "director": "Kirsten Johnson",
+    "cast": "Unknown Cast",
     "country": "United States",
-    "date_added": "September 24, 2021",
-    "release_year": "2021",
+    "date_added": "September 25, 2021",
+    "release_year": "2020",
+    "rating": "PG-13",
+    "duration": "95 min",
+    "listed_in": "Documentaries",
+    "description": "As her father nears the end of his life, filmmaker Kirsten Johnson stages his death in inventive and comical ways."
+  },
+  {
+    "show_id": "s99991",
+    "type": "Movie",
+    "title": "Test Incremental Action Movie 1",
+    "director": "Jane Doe",
+    "cast": "Actor A, Actor B",
+    "country": "United States",
+    "date_added": "August 10, 2026",
+    "release_year": "2026",
     "rating": "TV-MA",
-    "duration": "1 Season",
-    "listed_in": "TV Dramas, TV Horror, TV Mysteries",
-    "description": "An isolated island community experiences miraculous events..."
+    "duration": "110 min",
+    "listed_in": "Action & Adventure, Sci-Fi",
+    "description": "A futuristic action thriller testing incremental ingestion."
+  },
+  {
+    "show_id": "s99992",
+    "type": "TV Show",
+    "title": "Test Incremental Sci-Fi Series 2",
+    "director": "John Smith",
+    "cast": "Actor C, Actor D",
+    "country": "India",
+    "date_added": "August 10, 2026",
+    "release_year": "2026",
+    "rating": "TV-14",
+    "duration": "2 Seasons",
+    "listed_in": "International TV Shows, TV Dramas",
+    "description": "An exciting drama series testing SCD Type 1 and Type 2 logic."
+  },
+  {
+    "show_id": "s99993",
+    "type": "Movie",
+    "title": "Test Incremental Documentary 3",
+    "director": "Alice Johnson",
+    "cast": "Actor E",
+    "country": "United Kingdom",
+    "date_added": "August 10, 2026",
+    "release_year": "2026",
+    "rating": "PG",
+    "duration": "85 min",
+    "listed_in": "Documentaries",
+    "description": "A compelling documentary testing medallion pipeline ingestion."
   }
 ]

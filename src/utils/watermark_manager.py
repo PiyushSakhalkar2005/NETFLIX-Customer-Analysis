@@ -33,38 +33,29 @@ class WatermarkManager:
         Retrieves the last successful watermark state.
         If missing, returns epoch default for a Full Load restart.
         """
+        default_state = {
+            "pipeline_name": self.pipeline_name,
+            "last_processed_timestamp": "1970-01-01T00:00:00",
+            "last_successful_batch": "INIT",
+            "last_business_key": "show_id",
+            "last_run_time_ms": 0,
+            "updated_at": datetime.utcnow().isoformat()
+        }
+        
         if not os.path.exists(self.file_path):
             logger.info("Watermark store missing. Returning default epoch state.")
-            return {
-                "pipeline_name": self.pipeline_name,
-                "last_processed_timestamp": "1970-01-01T00:00:00",
-                "last_successful_batch": "INIT",
-                "last_run_time_ms": 0,
-                "updated_at": datetime.utcnow().isoformat()
-            }
+            return default_state
             
         try:
             with open(self.file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-                return data.get(self.pipeline_name, {
-                    "pipeline_name": self.pipeline_name,
-                    "last_processed_timestamp": "1970-01-01T00:00:00",
-                    "last_successful_batch": "INIT",
-                    "last_run_time_ms": 0,
-                    "updated_at": datetime.utcnow().isoformat()
-                })
+                return data.get(self.pipeline_name, default_state)
         except Exception as e:
             logger.error(f"Failed to read watermark store: {str(e)}. Returning default.")
-            return {
-                "pipeline_name": self.pipeline_name,
-                "last_processed_timestamp": "1970-01-01T00:00:00",
-                "last_successful_batch": "INIT",
-                "last_run_time_ms": 0,
-                "updated_at": datetime.utcnow().isoformat()
-            }
+            return default_state
             
-    def update_watermark(self, timestamp: str, batch_id: str, duration_ms: int):
-        """Saves a new watermark timestamp and batch details to the store."""
+    def update_watermark(self, timestamp: str, batch_id: str, duration_ms: int, business_key: str = "show_id"):
+        """Saves a new watermark timestamp, batch details, and business key to the store."""
         os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
         
         store = {}
@@ -79,6 +70,7 @@ class WatermarkManager:
             "pipeline_name": self.pipeline_name,
             "last_processed_timestamp": timestamp,
             "last_successful_batch": batch_id,
+            "last_business_key": business_key,
             "last_run_time_ms": duration_ms,
             "updated_at": datetime.utcnow().isoformat()
         }
@@ -86,7 +78,7 @@ class WatermarkManager:
         try:
             with open(self.file_path, "w", encoding="utf-8") as f:
                 json.dump(store, f, indent=2)
-            logger.info(f"Watermark updated: last_timestamp={timestamp}, batch_id={batch_id} in {self.file_path}")
+            logger.info(f"Watermark updated: last_timestamp={timestamp}, batch_id={batch_id}, business_key={business_key} in {self.file_path}")
         except Exception as e:
             logger.error(f"Failed to write updated watermark: {str(e)}")
             raise

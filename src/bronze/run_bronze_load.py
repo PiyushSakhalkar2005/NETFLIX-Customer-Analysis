@@ -55,10 +55,18 @@ if __name__ == "__main__":
     spark = init_spark(f"Bronze_Load_{args.source}")
     run_id = args.run_id or str(uuid.uuid4())
     
+    if args.source.lower() in ["all", "multi"]:
+        sources = ["netflix_csv", "netflix_json", "netflix_xml"]
+    elif "," in args.source:
+        sources = [s.strip() for s in args.source.split(",")]
+    else:
+        sources = [args.source]
+
     try:
         loader = BronzeLoader(spark)
-        batch_id = loader.load_source_to_bronze(args.source, run_id)
-        print(f"BRONZE_LOAD_SUCCESS: batch_id={batch_id}")
+        for src in sources:
+            batch_id = loader.load_source_to_bronze(src, run_id)
+            print(f"BRONZE_LOAD_SUCCESS: source={src}, batch_id={batch_id}")
     except Exception as e:
         logger.critical(f"Execution failed: {str(e)}")
         print(f"BRONZE_LOAD_FAILED: {str(e)}")

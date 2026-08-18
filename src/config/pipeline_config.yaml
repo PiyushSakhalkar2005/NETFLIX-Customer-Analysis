@@ -1,10 +1,11 @@
 pipeline:
   name: netflix_medallion_pipeline
-  version: 1.0.0
+  version: 2.0.0
   environment: local
+  execution_mode: INCREMENTAL  # Options: FULL, INCREMENTAL
 
 storage:
-  base_path: "d:/Piyu/Netflix project/data"
+  base_path: "data"
   raw_dir: "${storage.base_path}/raw"
   bronze_dir: "${storage.base_path}/bronze"
   silver_dir: "${storage.base_path}/silver"
@@ -23,6 +24,18 @@ ingestion:
         delimiter: ","
         escape: "\""
         multiLine: "true"
+    netflix_json:
+      format: json
+      path: "${storage.raw_dir}/netflix_titles.json"
+      load_type: FULL
+      options:
+        multiline: "true"
+    netflix_xml:
+      format: xml
+      path: "${storage.raw_dir}/netflix_titles.xml"
+      load_type: FULL
+      options:
+        rowTag: "show"
     netflix_incremental_json:
       format: json
       path: "${storage.raw_dir}/netflix_updates.json"
@@ -35,9 +48,9 @@ ingestion:
       load_type: INCREMENTAL
       connection_properties:
         user: "postgres"
-        password: "password"
+        password: "root"
         driver: "org.postgresql.Driver"
-        url: "jdbc:postgresql://localhost:5432/netflix_dw"
+        url: "jdbc:postgresql://localhost:5432/netflix_dw_new"
     netflix_api:
       format: rest_api
       url: "https://api.example.com/netflix/titles"
@@ -88,5 +101,9 @@ scd_type2:
 
 incremental_processing:
   pipeline_name: "netflix_titles_pipeline"
-  load_type: "incremental"  # Options: full, incremental
+  execution_mode: "INCREMENTAL"  # Options: FULL, INCREMENTAL
+  load_type: "INCREMENTAL"       # Options: FULL, INCREMENTAL
+  business_key: "show_id"
   watermark_file_path: "data/metadata/watermarks.json"
+  postgres_upsert: true
+

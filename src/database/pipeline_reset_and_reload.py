@@ -13,12 +13,15 @@ project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(_
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
+import argparse
+from src.utils.config_loader import ConfigLoader
+
 DB_CONFIG = {
     'host': 'localhost',
     'port': 5432,
     'user': 'postgres',
     'password': 'root',
-    'dbname': 'netflix_dw'
+    'dbname': 'netflix_dw_new'
 }
 
 def get_db_connection():
@@ -126,10 +129,10 @@ def run_cmd(args, step_name):
     print(result.stdout)
     return result.stdout
 
-def run_etl_pipeline():
-    print("Step 3: Rerunning PySpark ETL Pipeline...")
-    # 1. Landing raw ingestion
-    ingest_output = run_cmd(["python", "src/ingestion/ingest_raw.py", "--source", "netflix_csv"], "Landing Ingestion")
+def run_etl_pipeline(mode: str = "INCREMENTAL"):
+    print(f"Step 3: Rerunning PySpark ETL Pipeline (Mode: {mode})...")
+    # 1. Landing raw ingestion (CSV, JSON, XML)
+    ingest_output = run_cmd(["python", "src/ingestion/ingest_raw.py", "--source", "all"], "Landing Ingestion")
     
     # Extract batch_id
     batch_match = re.search(r"batch_id=([a-fA-F0-9\-]+)", ingest_output)
@@ -139,10 +142,13 @@ def run_etl_pipeline():
     print(f"Extracted Ingestion Batch ID: {batch_id}\n")
     
     # 2. Data Quality validation
-    run_cmd(["python", "src/quality/run_validation.py", "--source", "netflix_csv", "--batch-id", batch_id], "Data Quality Validation")
+    run_cmd(["python", "src/quality/run_validation.py", "--source", "all", "--batch-id", batch_id], "Data Quality Validation")
     
     # 3. Incremental Processing Engine Silver/Gold Load
-    run_cmd(["python", "src/silver/run_incremental_pipeline.py", "--force-full", "--batch-id", batch_id], "Incremental Medallion Load")
+    cmd = ["python", "src/silver/run_incremental_pipeline.py", "--batch-id", batch_id]
+    if mode.upper() == "FULL":
+        cmd.append("--force-full")
+    run_cmd(cmd, f"Medallion Load ({mode} Mode)")
     
     # 4. Advanced Business Transformations
     run_cmd(["python", "src/transformations/run_business_transforms.py", "--batch-id", batch_id], "Business Transformations")
@@ -150,8 +156,8 @@ def run_etl_pipeline():
     print("PySpark ETL pipeline rerun completed successfully.\n")
     return batch_id
 
-def load_parquet_to_postgres():
-    print("Step 4: Loading Parquet data into PostgreSQL...")
+def load_parquet_to_postgres(mode: str = "INCREMENTAL"):
+    print(f"Step 4: Loading Parquet data into PostgreSQL (Mode: {mode})...")
     conn = get_db_connection()
     cursor = conn.cursor()
     
@@ -159,6 +165,8 @@ def load_parquet_to_postgres():
     mappings = [
         # Bronze
         ("data/bronze/bronze_netflix_csv", "bronze", "bronze_netflix_csv", False),
+        ("data/bronze/bronze_netflix_json", "bronze", "bronze_netflix_json", False),
+        ("data/bronze/bronze_netflix_xml", "bronze", "bronze_netflix_xml", False),
         
         # Silver
         ("data/silver/silver_titles", "silver", "silver_titles", True),
@@ -225,10 +233,15 @@ def load_parquet_to_postgres():
                 
             # Read Parquet files into DataFrame
             df = pd.read_parquet(full_path)
+            if df.empty:
+                print(f"  Parquet dataset {schema}.{table} is empty. Skipping...")
+                continue
             
             # Deduplicate by primary keys if applicable
             full_table_name = f"{schema}.{table}"
             if full_table_name in primary_keys:
+                if "version_number" in df.columns:
+                    df = df.sort_values("version_number", ascending=False)
                 df = df.drop_duplicates(subset=primary_keys[full_table_name])
             
             # Fetch Postgres table columns dynamically to filter DataFrame fields
@@ -255,18 +268,56 @@ def load_parquet_to_postgres():
                     df[col_name] = None
             df = df[db_cols]
             
-            # Replace NaNs/NaTs with None for database inserts
+            # Replace empty strings and NaNs/NaTs with None for database inserts
+            df = df.replace({"": None})
             df = df.astype(object)
             df = df.where(df.notnull(), None)
             
-            # Load using psycopg2.extras.execute_values
             cols_str = ",".join([f'"{c}"' for c in db_cols])
-            query = f'INSERT INTO "{schema}"."{table}" ({cols_str}) VALUES %s'
+            conflict_clause = ""
+            
+            if mode.upper() == "INCREMENTAL":
+                # Handle KPI aggregate tables by truncating before inserting refreshed aggregates
+                if table.startswith("kpi_") or table in ["country_distribution", "genre_distribution", "rating_distribution", "top_genres_by_country", "director_rankings", "yearly_releases_summary", "gold_titles_enriched"]:
+                    cursor.execute(f'TRUNCATE TABLE "{schema}"."{table}" CASCADE;')
+                elif full_table_name == "silver.silver_titles":
+                    update_cols = [f'"{c}" = EXCLUDED."{c}"' for c in db_cols if c != "show_id"]
+                    conflict_clause = f' ON CONFLICT ("show_id") DO UPDATE SET {", ".join(update_cols)}'
+                elif full_table_name == "silver.silver_titles_scd2":
+                    update_cols = [f'"{c}" = EXCLUDED."{c}"' for c in db_cols if c not in ["show_id", "version_number"]]
+                    conflict_clause = f' ON CONFLICT ("show_id", "version_number") DO UPDATE SET {", ".join(update_cols)}'
+                elif full_table_name == "silver.silver_country":
+                    conflict_clause = ' ON CONFLICT ("show_id", "country") DO NOTHING'
+                elif full_table_name == "silver.silver_genres":
+                    conflict_clause = ' ON CONFLICT ("show_id", "genre") DO NOTHING'
+                elif full_table_name == "silver.silver_directors":
+                    conflict_clause = ' ON CONFLICT ("show_id", "director") DO NOTHING'
+                elif full_table_name == "silver.silver_cast":
+                    conflict_clause = ' ON CONFLICT ("show_id", "cast_member") DO NOTHING'
+                elif full_table_name == "gold.dim_title":
+                    update_cols = [f'"{c}" = EXCLUDED."{c}"' for c in db_cols if c != "title_key"]
+                    conflict_clause = f' ON CONFLICT ("title_key") DO UPDATE SET {", ".join(update_cols)}'
+                elif full_table_name == "gold.dim_director":
+                    conflict_clause = ' ON CONFLICT ("director_key") DO NOTHING'
+                elif full_table_name == "gold.dim_country":
+                    conflict_clause = ' ON CONFLICT ("country_key") DO NOTHING'
+                elif full_table_name == "gold.dim_genre":
+                    conflict_clause = ' ON CONFLICT ("genre_key") DO NOTHING'
+                elif full_table_name == "gold.dim_rating":
+                    conflict_clause = ' ON CONFLICT ("rating_key") DO NOTHING'
+                elif full_table_name == "gold.dim_type":
+                    conflict_clause = ' ON CONFLICT ("type_key") DO NOTHING'
+                elif full_table_name == "gold.dim_date":
+                    conflict_clause = ' ON CONFLICT ("date_key") DO NOTHING'
+                elif full_table_name == "gold.fact_content":
+                    conflict_clause = ' ON CONFLICT ("title_key", "director_key", "country_key", "genre_key", "rating_key", "type_key", "date_key") DO NOTHING'
+
+            query = f'INSERT INTO "{schema}"."{table}" ({cols_str}) VALUES %s{conflict_clause}'
             tuples = [tuple(x) for x in df.values]
             
             execute_values(cursor, query, tuples)
             conn.commit()
-            print(f"  Successfully loaded {len(tuples)} rows into {schema}.{table}")
+            print(f"  Successfully loaded/UPSERTed {len(tuples)} rows into {schema}.{table}")
             
         print("Data loaded to database tables successfully.\n")
     except Exception as e:
@@ -295,18 +346,30 @@ def load_audit_metadata():
             for r in runs:
                 cursor.execute("""
                     INSERT INTO metadata.pipeline_runs (
-                        pipeline_run_id, pipeline_name, batch_id, start_time, end_time, 
-                        execution_duration_ms, execution_status, execution_host, spark_application_id
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        pipeline_run_id, pipeline_name, batch_id, execution_mode, start_time, end_time, 
+                        execution_duration_ms, execution_status, execution_host, spark_application_id,
+                        watermark_timestamp, rows_read, rows_inserted, rows_updated, rows_skipped, rows_rejected, error_details
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     ON CONFLICT (pipeline_run_id) DO UPDATE SET 
+                        execution_mode = EXCLUDED.execution_mode,
                         end_time = EXCLUDED.end_time,
                         execution_duration_ms = EXCLUDED.execution_duration_ms,
                         execution_status = EXCLUDED.execution_status,
-                        spark_application_id = EXCLUDED.spark_application_id;
+                        spark_application_id = EXCLUDED.spark_application_id,
+                        watermark_timestamp = EXCLUDED.watermark_timestamp,
+                        rows_read = EXCLUDED.rows_read,
+                        rows_inserted = EXCLUDED.rows_inserted,
+                        rows_updated = EXCLUDED.rows_updated,
+                        rows_skipped = EXCLUDED.rows_skipped,
+                        rows_rejected = EXCLUDED.rows_rejected,
+                        error_details = EXCLUDED.error_details;
                 """, (
                     r.get("pipeline_run_id"), r.get("pipeline_name"), r.get("batch_id"),
-                    r.get("start_time"), r.get("end_time"), r.get("execution_duration_ms"),
-                    r.get("execution_status"), r.get("execution_host"), r.get("spark_application_id")
+                    r.get("execution_mode", "INCREMENTAL"), r.get("start_time"), r.get("end_time"),
+                    r.get("execution_duration_ms"), r.get("execution_status"), r.get("execution_host"),
+                    r.get("spark_application_id"), r.get("watermark_timestamp"), r.get("rows_read", 0),
+                    r.get("rows_inserted", 0), r.get("rows_updated", 0), r.get("rows_skipped", 0),
+                    r.get("rows_rejected", 0), r.get("error_details")
                 ))
             conn.commit()
             print(f"  Loaded {len(runs)} run details to metadata.pipeline_runs")
@@ -339,16 +402,18 @@ def load_audit_metadata():
             for p_name, w in watermarks.items():
                 cursor.execute("""
                     INSERT INTO metadata.pipeline_watermarks (
-                        pipeline_name, last_processed_timestamp, last_successful_batch_id, last_run_duration_ms, updated_at
-                    ) VALUES (%s, %s, %s, %s, %s)
+                        pipeline_name, last_processed_timestamp, last_successful_batch_id, last_business_key, last_run_duration_ms, updated_at
+                    ) VALUES (%s, %s, %s, %s, %s, %s)
                     ON CONFLICT (pipeline_name) DO UPDATE SET
                         last_processed_timestamp = EXCLUDED.last_processed_timestamp,
                         last_successful_batch_id = EXCLUDED.last_successful_batch_id,
+                        last_business_key = EXCLUDED.last_business_key,
                         last_run_duration_ms = EXCLUDED.last_run_duration_ms,
                         updated_at = EXCLUDED.updated_at;
                 """, (
                     w.get("pipeline_name"), w.get("last_processed_timestamp"),
-                    w.get("last_successful_batch"), w.get("last_run_time_ms"), w.get("updated_at")
+                    w.get("last_successful_batch"), w.get("last_business_key", "show_id"),
+                    w.get("last_run_time_ms"), w.get("updated_at")
                 ))
             conn.commit()
             print(f"  Loaded watermarks to metadata.pipeline_watermarks")
@@ -375,9 +440,6 @@ def recreate_views():
         with open(views_path, "r", encoding="utf-8") as f:
             sql = f.read()
             
-        # Execute the SQL views scripts
-        # We split by semicolon to execute each statement independently if needed, 
-        # or execute it altogether
         cursor.execute(sql)
         conn.commit()
         print("  Successfully executed powerbi_views.sql script.")
@@ -423,20 +485,30 @@ def run_validation_report():
         conn.close()
 
 def main():
+    parser = argparse.ArgumentParser(description="Netflix Data Pipeline Reset & Reload Orchestrator")
+    parser.add_argument("--mode", type=str, choices=["FULL", "INCREMENTAL"], help="Execution mode (FULL or INCREMENTAL)")
+    args = parser.parse_args()
+    
+    config = ConfigLoader.load()
+    mode = args.mode or config.get("pipeline", {}).get("execution_mode") or config.get("incremental_processing", {}).get("execution_mode", "INCREMENTAL")
+    mode = mode.upper()
+    
     print("="*60)
-    print("NETFLIX DATA ENGINEERING PIPELINE RESET AND RELOAD RUNNER")
+    print(f"NETFLIX DATA ENGINEERING PIPELINE RUNNER - MODE: {mode}")
     print("="*60)
     
-    reset_database()
-    clean_local_storage()
-    batch_id = run_etl_pipeline()
-    load_parquet_to_postgres()
+    if mode == "FULL":
+        reset_database()
+        clean_local_storage()
+        
+    batch_id = run_etl_pipeline(mode=mode)
+    load_parquet_to_postgres(mode=mode)
     load_audit_metadata()
     recreate_views()
     run_validation_report()
     
     print("="*60)
-    print("RESET AND RELOAD COMPLETED SUCCESSFULLY")
+    print(f"PIPELINE EXECUTION ({mode} MODE) COMPLETED SUCCESSFULLY")
     print("="*60)
 
 if __name__ == '__main__':

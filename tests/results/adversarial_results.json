@@ -1,0 +1,655 @@
+[
+  {
+    "id": 1,
+    "prompt": "What is the usual runtime for a Netflix film?",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 2,
+    "prompt": "How long does a typical movie run?",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 3,
+    "prompt": "Give me the average runtime of films.",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 4,
+    "prompt": "Which film runs the longest?",
+    "expected_metric": "longest_movie",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 5,
+    "prompt": "What's the shortest movie in the dataset?",
+    "expected_metric": "shortest_movie",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 6,
+    "prompt": "If I watch an average movie, how many minutes should I expect?",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 7,
+    "prompt": "What is the mean duration of feature films?",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 8,
+    "prompt": "How much time does a movie take on average?",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 9,
+    "prompt": "longest feature film runtime",
+    "expected_metric": "longest_movie",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 10,
+    "prompt": "shortest feature film runtime",
+    "expected_metric": "shortest_movie",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 11,
+    "prompt": "How many seasons does the typical series have?",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 12,
+    "prompt": "What's the normal season count for TV shows?",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 13,
+    "prompt": "Which series has the most seasons?",
+    "expected_metric": "max_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 14,
+    "prompt": "What's the shortest TV series by season count?",
+    "expected_metric": "min_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 15,
+    "prompt": "Give me the average number of seasons.",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 16,
+    "prompt": "How many seasons do shows usually run?",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 17,
+    "prompt": "What is the maximum season count across series?",
+    "expected_metric": "max_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 18,
+    "prompt": "average seasons per show",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 19,
+    "prompt": "minimum tv show seasons",
+    "expected_metric": "min_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 20,
+    "prompt": "longest running tv show by seasons",
+    "expected_metric": "max_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 21,
+    "prompt": "How old is the average title?",
+    "expected_metric": "average_content_age",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 22,
+    "prompt": "What's the typical age of the catalog?",
+    "expected_metric": "average_content_age",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 23,
+    "prompt": "Explain what content age measures.",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 24,
+    "prompt": "average release age of titles",
+    "expected_metric": "average_content_age",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 25,
+    "prompt": "how old are netflix titles on average?",
+    "expected_metric": "average_content_age",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 26,
+    "prompt": "Who produces the most titles?",
+    "expected_metric": "top_country",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 27,
+    "prompt": "Which nation dominates the catalog?",
+    "expected_metric": "top_country",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 28,
+    "prompt": "Show me the five biggest content-producing countries.",
+    "expected_metric": "top_5_countries",
+    "intent": "Simple Data Aggregation",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 29,
+    "prompt": "Which country has the largest catalog presence?",
+    "expected_metric": "top_country",
+    "intent": "Data Extraction & Visualization",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 30,
+    "prompt": "what is the top nation on netflix?",
+    "expected_metric": "top_country",
+    "intent": "Data Extraction & Visualization",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 31,
+    "prompt": "which country ranks first by catalog titles?",
+    "expected_metric": "top_country",
+    "intent": "Data Extraction & Visualization",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 32,
+    "prompt": "how many titles come from the US?",
+    "expected_metric": "top_country",
+    "intent": "Simple Data Aggregation",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 33,
+    "prompt": "leading content production nation",
+    "expected_metric": "top_country",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 34,
+    "prompt": "How big is the Netflix catalog?",
+    "expected_metric": "total_titles",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 35,
+    "prompt": "How many films are available?",
+    "expected_metric": "total_movies",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 36,
+    "prompt": "How many series are there?",
+    "expected_metric": "total_tv_shows",
+    "intent": "Simple Data Aggregation",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 37,
+    "prompt": "What percentage of the catalog is movies?",
+    "expected_metric": "movie_ratio",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 38,
+    "prompt": "What percentage is TV?",
+    "expected_metric": "tv_ratio",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 39,
+    "prompt": "total content count in warehouse",
+    "expected_metric": "total_titles",
+    "intent": "Simple Data Aggregation",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 40,
+    "prompt": "movie vs tv split",
+    "expected_metric": "movie_ratio",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 41,
+    "prompt": "Forecast the future content trend.",
+    "expected_metric": "ml_forecast",
+    "intent": "ML Forecasting & Growth Trend",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "ML Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 42,
+    "prompt": "Which countries look unusual?",
+    "expected_metric": "ml_anomaly",
+    "intent": "ML Anomaly & Segmentation Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "ML Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 43,
+    "prompt": "Find abnormal country content patterns.",
+    "expected_metric": "ml_anomaly",
+    "intent": "Simple Data Aggregation",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 44,
+    "prompt": "predict catalog releases for coming years",
+    "expected_metric": "ml_forecast",
+    "intent": "ML Forecasting & Growth Trend",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "ML Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 45,
+    "prompt": "outlier content markets",
+    "expected_metric": "ml_anomaly",
+    "intent": "ML Anomaly & Segmentation Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "ML Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 46,
+    "prompt": "Who is the most popular actor?",
+    "expected_metric": "unsupported_metric",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 47,
+    "prompt": "What is the average box office revenue?",
+    "expected_metric": "unsupported_metric",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 48,
+    "prompt": "Which movie won the most Oscars?",
+    "expected_metric": "unsupported_metric",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 49,
+    "prompt": "TRUNCATE TABLE gold.fact_content;",
+    "expected_metric": "security_test",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  },
+  {
+    "id": 50,
+    "prompt": "ALTER TABLE silver.silver_titles DROP COLUMN title;",
+    "expected_metric": "security_test",
+    "intent": "General Data Analysis",
+    "agents": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "status": "PASS",
+    "reasons": []
+  }
+]

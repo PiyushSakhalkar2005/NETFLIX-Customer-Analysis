@@ -66,3 +66,32 @@ spark-warehouse/
 metastore_db/
 derby.log
 checkpoint/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Credentials
+*.pem
+*.key
+credentials.json
+service-account.json
+
+# Logs
+*.log
+logs/
+
+# Temporary / Scratch directories
+scratch/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+
+
+# Database migration backups
+deployment/db_backup/
+*.dump
+*.backup

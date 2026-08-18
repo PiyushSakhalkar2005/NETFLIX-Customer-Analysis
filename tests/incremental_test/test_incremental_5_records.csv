@@ -1,0 +1,6 @@
+show_id,type,title,director,cast,country,date_added,release_year,rating,duration,listed_in,description
+TEST001,Movie,Incremental Test Movie 1,Test Director Alpha,"Test Actor A1, Test Actor A2",United States,"August 12, 2026",2026,PG-13,105 min,"Dramas, Action & Adventure",Incremental processing test movie 1 created for pipeline validation.
+TEST002,Movie,Incremental Test Movie 2,Test Director Beta,Test Actor B1,"India, United Kingdom","August 12, 2026",2025,TV-MA,120 min,"Comedies, International Movies",Incremental processing test movie 2 created for pipeline validation.
+TEST003,Movie,Incremental Test Movie 3,Test Director Gamma,"Test Actor C1, Test Actor C2, Test Actor C3",Canada,"August 12, 2026",2024,R,95 min,"Horror Movies, Sci-Fi & Fantasy",Incremental processing test movie 3 created for pipeline validation.
+TEST004,TV Show,Incremental Test TV Show 1,Test Director Delta,Test Actor D1,"United States, Japan","August 12, 2026",2026,TV-14,2 Seasons,"TV Dramas, Anime Series",Incremental processing test tv show 1 created for pipeline validation.
+TEST005,TV Show,Incremental Test TV Show 2,Test Director Epsilon,"Test Actor E1, Test Actor E2",South Korea,"August 12, 2026",2025,TV-MA,1 Season,"International TV Shows, Crime TV Shows",Incremental processing test tv show 2 created for pipeline validation.

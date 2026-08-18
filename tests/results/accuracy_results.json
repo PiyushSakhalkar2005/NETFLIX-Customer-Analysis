@@ -1,0 +1,2178 @@
+[
+  {
+    "id": 1,
+    "prompt": "total how many movies are there",
+    "expected_metric": "total_movies",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 2,
+    "prompt": "how many movies are there?",
+    "expected_metric": "total_movies",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 3,
+    "prompt": "what is the movie count",
+    "expected_metric": "total_movies",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 4,
+    "prompt": "how many films are in Netflix?",
+    "expected_metric": "total_movies",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 5,
+    "prompt": "number of movies",
+    "expected_metric": "total_movies",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 6,
+    "prompt": "how many TV shows are there",
+    "expected_metric": "total_tv_shows",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 7,
+    "prompt": "total tv show count",
+    "expected_metric": "total_tv_shows",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 8,
+    "prompt": "how many series are on netflix",
+    "expected_metric": "total_tv_shows",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 9,
+    "prompt": "how many total titles are there",
+    "expected_metric": "total_titles",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 10,
+    "prompt": "what is the total catalog size?",
+    "expected_metric": "total_titles",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 11,
+    "prompt": "total content count",
+    "expected_metric": "total_titles",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 12,
+    "prompt": "what is the average content age",
+    "expected_metric": "average_content_age",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 13,
+    "prompt": "how old is the average netflix title?",
+    "expected_metric": "average_content_age",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 14,
+    "prompt": "average content age of catalog",
+    "expected_metric": "average_content_age",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 15,
+    "prompt": "what is the movie ratio",
+    "expected_metric": "movie_ratio",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 16,
+    "prompt": "tell me the average movie duration",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 17,
+    "prompt": "what is the average movie duration?",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 18,
+    "prompt": "how long is a typical movie?",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 19,
+    "prompt": "what is the average length of movies?",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 20,
+    "prompt": "how many minutes is the average movie?",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 21,
+    "prompt": "average movie length",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 22,
+    "prompt": "movie duration average",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 23,
+    "prompt": "show me average movie duration",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 24,
+    "prompt": "what is the longest movie",
+    "expected_metric": "longest_movie",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT title, duration, release_year\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%'\n                ORDER BY CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) DESC\n                LIMIT 1;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 25,
+    "prompt": "which movie is the longest?",
+    "expected_metric": "longest_movie",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT title, duration, release_year\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%'\n                ORDER BY CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) DESC\n                LIMIT 1;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 26,
+    "prompt": "longest movie on netflix",
+    "expected_metric": "longest_movie",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT title, duration, release_year\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%'\n                ORDER BY CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) DESC\n                LIMIT 1;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 27,
+    "prompt": "what is the shortest movie",
+    "expected_metric": "shortest_movie",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT title, duration, release_year\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%' AND CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) > 0\n                ORDER BY CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) ASC\n                LIMIT 1;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 28,
+    "prompt": "shortest movie on netflix",
+    "expected_metric": "shortest_movie",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT title, duration, release_year\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%' AND CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) > 0\n                ORDER BY CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) ASC\n                LIMIT 1;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 29,
+    "prompt": "which movie has the shortest runtime?",
+    "expected_metric": "shortest_movie",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 30,
+    "prompt": "minimum movie duration",
+    "expected_metric": "min_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 31,
+    "prompt": "maximum movie duration",
+    "expected_metric": "max_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 32,
+    "prompt": "average duration of movies",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 33,
+    "prompt": "movie runtime average",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 34,
+    "prompt": "average length of netflix movies",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 35,
+    "prompt": "movie duration summary",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 36,
+    "prompt": "average tv show seasons",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 37,
+    "prompt": "what is the average number of seasons for tv shows?",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 38,
+    "prompt": "how many seasons does a show usually have?",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 39,
+    "prompt": "average seasons per tv show",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 40,
+    "prompt": "average tv duration in seasons",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 41,
+    "prompt": "minimum seasons",
+    "expected_metric": "min_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    MIN(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)) AS min_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 42,
+    "prompt": "maximum seasons",
+    "expected_metric": "max_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT title, duration, release_year\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%')\n                ORDER BY CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) DESC\n                LIMIT 1;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 43,
+    "prompt": "tv show season count",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 44,
+    "prompt": "number of seasons for series",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 45,
+    "prompt": "average number of seasons",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 46,
+    "prompt": "tv series average duration",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 47,
+    "prompt": "how long are tv series on average?",
+    "expected_metric": "average_seasons",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 48,
+    "prompt": "average seasons for netflix shows",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 49,
+    "prompt": "tv show season average",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 50,
+    "prompt": "average length of tv shows",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 51,
+    "prompt": "which country makes most content?",
+    "expected_metric": "top_country",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 52,
+    "prompt": "What are the top 5 countries by Netflix content?",
+    "expected_metric": "top_5_countries",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 5;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 53,
+    "prompt": "Show top 10 countries by content.",
+    "expected_metric": "top_countries",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 54,
+    "prompt": "Why is the US dominant?",
+    "expected_metric": "top_country",
+    "intent": "Strategic Business Insight",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 55,
+    "prompt": "country with most content on netflix",
+    "expected_metric": "top_country",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 56,
+    "prompt": "which nation has the highest titles?",
+    "expected_metric": "top_country",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 57,
+    "prompt": "top content producing countries",
+    "expected_metric": "top_5_countries",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 58,
+    "prompt": "country ranking by title count",
+    "expected_metric": "top_5_countries",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 59,
+    "prompt": "how many titles does US have?",
+    "expected_metric": "top_country",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 60,
+    "prompt": "united states content count",
+    "expected_metric": "top_country",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 61,
+    "prompt": "top countries distribution",
+    "expected_metric": "top_5_countries",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 62,
+    "prompt": "what is india content count?",
+    "expected_metric": "country_india",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 63,
+    "prompt": "how many titles from UK?",
+    "expected_metric": "country_uk",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 64,
+    "prompt": "top 3 countries by content",
+    "expected_metric": "top_5_countries",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 3;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 65,
+    "prompt": "country content breakdown",
+    "expected_metric": "top_5_countries",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 66,
+    "prompt": "what is the top genre on netflix?",
+    "expected_metric": "top_genre",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT genre_name, titles_count \n                FROM metadata.v_kpi_genre_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 67,
+    "prompt": "top genres on netflix",
+    "expected_metric": "top_genres",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT genre_name, titles_count \n                FROM metadata.v_kpi_genre_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 68,
+    "prompt": "genre distribution",
+    "expected_metric": "top_genres",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT genre_name, titles_count \n                FROM metadata.v_kpi_genre_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 69,
+    "prompt": "most popular genre",
+    "expected_metric": "top_genre",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT genre_name, titles_count \n                FROM metadata.v_kpi_genre_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 70,
+    "prompt": "top 5 movie genres",
+    "expected_metric": "top_genres",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT genre_name, titles_count \n                FROM metadata.v_kpi_genre_distribution \n                ORDER BY titles_count DESC \n                LIMIT 5;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 71,
+    "prompt": "which category has the most titles?",
+    "expected_metric": "top_genre",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT genre_name, titles_count \n                FROM metadata.v_kpi_genre_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 72,
+    "prompt": "genre breakdown of catalog",
+    "expected_metric": "top_genres",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT genre_name, titles_count \n                FROM metadata.v_kpi_genre_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 73,
+    "prompt": "leading genre category",
+    "expected_metric": "top_genre",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT genre_name, titles_count \n                FROM metadata.v_kpi_genre_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 74,
+    "prompt": "what are the main genres?",
+    "expected_metric": "top_genres",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT genre_name, titles_count \n                FROM metadata.v_kpi_genre_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 75,
+    "prompt": "most common genre",
+    "expected_metric": "top_genre",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT genre_name, titles_count \n                FROM metadata.v_kpi_genre_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 76,
+    "prompt": "Analyze Netflix content growth.",
+    "expected_metric": "growth_trend",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    f.release_year,\n                    COUNT(DISTINCT f.title_key) AS total_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS movie_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS tv_releases\n                FROM gold.fact_content f\n                JOIN gold.dim_type t ON f.type_key = t.type_key\n                JOIN gold.dim_country c ON f.country_key = c.country_key\n                WHERE f.release_year >= 1995 AND f.release_year <= 2021  \n                GROUP BY f.release_year\n                ORDER BY f.release_year ASC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 77,
+    "prompt": "which year had the most releases?",
+    "expected_metric": "peak_release_year",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    f.release_year,\n                    COUNT(DISTINCT f.title_key) AS total_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS movie_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS tv_releases\n                FROM gold.fact_content f\n                JOIN gold.dim_type t ON f.type_key = t.type_key\n                JOIN gold.dim_country c ON f.country_key = c.country_key\n                WHERE f.release_year >= 1995 AND f.release_year <= 2021  \n                GROUP BY f.release_year\n                ORDER BY f.release_year ASC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 78,
+    "prompt": "peak release year",
+    "expected_metric": "peak_release_year",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    f.release_year,\n                    COUNT(DISTINCT f.title_key) AS total_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS movie_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS tv_releases\n                FROM gold.fact_content f\n                JOIN gold.dim_type t ON f.type_key = t.type_key\n                JOIN gold.dim_country c ON f.country_key = c.country_key\n                WHERE f.release_year >= 1995 AND f.release_year <= 2021  \n                GROUP BY f.release_year\n                ORDER BY f.release_year ASC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 79,
+    "prompt": "releases by year",
+    "expected_metric": "growth_trend",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    f.release_year,\n                    COUNT(DISTINCT f.title_key) AS total_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS movie_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS tv_releases\n                FROM gold.fact_content f\n                JOIN gold.dim_type t ON f.type_key = t.type_key\n                JOIN gold.dim_country c ON f.country_key = c.country_key\n                WHERE f.release_year >= 1995 AND f.release_year <= 2021  \n                GROUP BY f.release_year\n                ORDER BY f.release_year ASC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 80,
+    "prompt": "content growth over time",
+    "expected_metric": "growth_trend",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    f.release_year,\n                    COUNT(DISTINCT f.title_key) AS total_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS movie_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS tv_releases\n                FROM gold.fact_content f\n                JOIN gold.dim_type t ON f.type_key = t.type_key\n                JOIN gold.dim_country c ON f.country_key = c.country_key\n                WHERE f.release_year >= 1995 AND f.release_year <= 2021  \n                GROUP BY f.release_year\n                ORDER BY f.release_year ASC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 81,
+    "prompt": "Predict content growth.",
+    "expected_metric": "ml_forecast",
+    "intent": "ML Forecasting & Growth Trend",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "ML Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT \n                    f.release_year,\n                    COUNT(DISTINCT f.title_key) AS total_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS movie_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS tv_releases\n                FROM gold.fact_content f\n                JOIN gold.dim_type t ON f.type_key = t.type_key\n                JOIN gold.dim_country c ON f.country_key = c.country_key\n                WHERE f.release_year >= 1995 AND f.release_year <= 2021  \n                GROUP BY f.release_year\n                ORDER BY f.release_year ASC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 82,
+    "prompt": "forecast future catalog releases",
+    "expected_metric": "ml_forecast",
+    "intent": "ML Forecasting & Growth Trend",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "ML Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT \n                    f.release_year,\n                    COUNT(DISTINCT f.title_key) AS total_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS movie_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS tv_releases\n                FROM gold.fact_content f\n                JOIN gold.dim_type t ON f.type_key = t.type_key\n                JOIN gold.dim_country c ON f.country_key = c.country_key\n                WHERE f.release_year >= 1995 AND f.release_year <= 2021  \n                GROUP BY f.release_year\n                ORDER BY f.release_year ASC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 83,
+    "prompt": "annual release velocity",
+    "expected_metric": "growth_trend",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    f.release_year,\n                    COUNT(DISTINCT f.title_key) AS total_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS movie_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS tv_releases\n                FROM gold.fact_content f\n                JOIN gold.dim_type t ON f.type_key = t.type_key\n                JOIN gold.dim_country c ON f.country_key = c.country_key\n                WHERE f.release_year >= 1995 AND f.release_year <= 2021  \n                GROUP BY f.release_year\n                ORDER BY f.release_year ASC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 84,
+    "prompt": "content additions timeline",
+    "expected_metric": "growth_trend",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    f.release_year,\n                    COUNT(DISTINCT f.title_key) AS total_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS movie_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS tv_releases\n                FROM gold.fact_content f\n                JOIN gold.dim_type t ON f.type_key = t.type_key\n                JOIN gold.dim_country c ON f.country_key = c.country_key\n                WHERE f.release_year >= 1995 AND f.release_year <= 2021  \n                GROUP BY f.release_year\n                ORDER BY f.release_year ASC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 85,
+    "prompt": "historical release trend",
+    "expected_metric": "growth_trend",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT \n                    f.release_year,\n                    COUNT(DISTINCT f.title_key) AS total_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS movie_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS tv_releases\n                FROM gold.fact_content f\n                JOIN gold.dim_type t ON f.type_key = t.type_key\n                JOIN gold.dim_country c ON f.country_key = c.country_key\n                WHERE f.release_year >= 1995 AND f.release_year <= 2021  \n                GROUP BY f.release_year\n                ORDER BY f.release_year ASC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 86,
+    "prompt": "top director on netflix",
+    "expected_metric": "top_director",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT director_name, titles_count \n                FROM metadata.v_kpi_top_directors \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 87,
+    "prompt": "director with most titles",
+    "expected_metric": "top_director",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT director_name, titles_count \n                FROM metadata.v_kpi_top_directors \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 88,
+    "prompt": "most frequent director",
+    "expected_metric": "top_director",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT director_name, titles_count \n                FROM metadata.v_kpi_top_directors \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 89,
+    "prompt": "content rating distribution",
+    "expected_metric": "top_rating",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT rating_name, titles_count \n                FROM metadata.v_kpi_rating_distribution \n                ORDER BY titles_count DESC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 90,
+    "prompt": "most common rating",
+    "expected_metric": "top_rating",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT rating_name, titles_count \n                FROM metadata.v_kpi_rating_distribution \n                ORDER BY titles_count DESC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 91,
+    "prompt": "Which countries have unusual content patterns?",
+    "expected_metric": "ml_anomaly",
+    "intent": "ML Anomaly & Segmentation Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "ML Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 92,
+    "prompt": "outlier countries in catalog",
+    "expected_metric": "ml_anomaly",
+    "intent": "ML Anomaly & Segmentation Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "ML Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 93,
+    "prompt": "anomalous content distributions",
+    "expected_metric": "ml_anomaly",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 94,
+    "prompt": "cluster countries by content",
+    "expected_metric": "ml_anomaly",
+    "intent": "ML Anomaly & Segmentation Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "ML Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 95,
+    "prompt": "segmentation of netflix markets",
+    "expected_metric": "ml_anomaly",
+    "intent": "ML Anomaly & Segmentation Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "ML Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    c.country AS country_name,\n                    COUNT(DISTINCT f.title_key) AS titles_count,\n                    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS movie_count,\n                    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS tv_count,\n                    ROUND(AVG(f.duration_minutes), 1) AS avg_movie_duration,\n                    ROUND(AVG(f.content_age), 1) AS avg_content_age\n                FROM gold.fact_content f\n                JOIN gold.dim_country c ON f.country_key = c.country_key\n                JOIN gold.dim_type t ON f.type_key = t.type_key\n                WHERE c.country <> 'Unknown Country'  \n                GROUP BY c.country\n                HAVING COUNT(DISTINCT f.title_key) >= 10\n                ORDER BY titles_count DESC;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 96,
+    "prompt": "What does Movie Ratio mean?",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 97,
+    "prompt": "What does Content Age mean?",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 98,
+    "prompt": "how do i use this app?",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 99,
+    "prompt": "explain the gold schema",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 100,
+    "prompt": "what data is in netflix dw?",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 101,
+    "prompt": "what are the top genres?",
+    "expected_metric": "context_india_genres",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT \n                        g.genre AS genre_name,\n                        COUNT(DISTINCT f.title_key) AS titles_count\n                    FROM gold.fact_content f\n                    JOIN gold.dim_genre g ON f.genre_key = g.genre_key\n                    JOIN gold.dim_country c ON f.country_key = c.country_key\n                    JOIN gold.dim_type t ON f.type_key = t.type_key\n                    WHERE g.genre <> 'Unknown'  AND c.country = 'India'  \n                    GROUP BY g.genre\n                    ORDER BY titles_count DESC \n                    LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 102,
+    "prompt": "how many titles are there?",
+    "expected_metric": "context_india_titles",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT \n                        COUNT(DISTINCT f.title_key) AS total_titles,\n                        COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS total_movies,\n                        COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS total_tv_shows,\n                        ROUND(AVG(f.content_age), 1) AS average_content_age\n                    FROM gold.fact_content f\n                    JOIN gold.dim_type t ON f.type_key = t.type_key\n                    JOIN gold.dim_country c ON f.country_key = c.country_key\n                    WHERE 1=1  AND c.country = 'India' ;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 103,
+    "prompt": "how many titles are there?",
+    "expected_metric": "context_2020_titles",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 104,
+    "prompt": "how many movies are there?",
+    "expected_metric": "context_uk_movies",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT \n                        COUNT(DISTINCT f.title_key) AS total_titles,\n                        COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS total_movies,\n                        COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS total_tv_shows,\n                        ROUND(AVG(f.content_age), 1) AS average_content_age\n                    FROM gold.fact_content f\n                    JOIN gold.dim_type t ON f.type_key = t.type_key\n                    JOIN gold.dim_country c ON f.country_key = c.country_key\n                    WHERE 1=1  AND c.country = 'United Kingdom' ;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 105,
+    "prompt": "top genres",
+    "expected_metric": "context_tv_genres",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT \n                        g.genre AS genre_name,\n                        COUNT(DISTINCT f.title_key) AS titles_count\n                    FROM gold.fact_content f\n                    JOIN gold.dim_genre g ON f.genre_key = g.genre_key\n                    JOIN gold.dim_country c ON f.country_key = c.country_key\n                    JOIN gold.dim_type t ON f.type_key = t.type_key\n                    WHERE g.genre <> 'Unknown'   AND t.type = 'TV Show' \n                    GROUP BY g.genre\n                    ORDER BY titles_count DESC \n                    LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 106,
+    "prompt": "how long are movies",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 107,
+    "prompt": "typical movie runtime",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 108,
+    "prompt": "movie runtime average",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 109,
+    "prompt": "average duration of a Netflix movie",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 110,
+    "prompt": "how many minutes does a movie usually run",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 111,
+    "prompt": "longest movie on Netflix dataset",
+    "expected_metric": "longest_movie",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT title, duration, release_year\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%'\n                ORDER BY CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) DESC\n                LIMIT 1;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 112,
+    "prompt": "what film has the longest duration?",
+    "expected_metric": "longest_movie",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT title, duration, release_year\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%'\n                ORDER BY CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) DESC\n                LIMIT 1;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 113,
+    "prompt": "shortest movie feature",
+    "expected_metric": "shortest_movie",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT title, duration, release_year\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%' AND CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) > 0\n                ORDER BY CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) ASC\n                LIMIT 1;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 114,
+    "prompt": "movie duration in minutes",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 115,
+    "prompt": "average length of films",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 116,
+    "prompt": "typical film runtime on netflix",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 117,
+    "prompt": "how long is a film on average?",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 118,
+    "prompt": "movie length breakdown",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 119,
+    "prompt": "average feature film duration",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 120,
+    "prompt": "mean movie duration",
+    "expected_metric": "average_movie_duration",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_movies,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 1) AS average_movie_duration_minutes\n                FROM silver.silver_titles\n                WHERE type = 'Movie' AND duration LIKE '%min%';",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 121,
+    "prompt": "typical number of seasons",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 122,
+    "prompt": "average TV seasons",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 123,
+    "prompt": "TV series usually have how many seasons",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 124,
+    "prompt": "maximum number of seasons",
+    "expected_metric": "max_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 125,
+    "prompt": "which TV show has the most seasons",
+    "expected_metric": "max_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT title, duration, release_year\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%')\n                ORDER BY CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) DESC\n                LIMIT 1;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 126,
+    "prompt": "average number of seasons per series",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 127,
+    "prompt": "typical series length in seasons",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 128,
+    "prompt": "how many seasons per tv show on average?",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 129,
+    "prompt": "mean tv seasons",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 130,
+    "prompt": "tv show season distribution average",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 131,
+    "prompt": "how many seasons is typical for a show?",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 132,
+    "prompt": "tv series season average",
+    "expected_metric": "average_seasons",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 133,
+    "prompt": "lowest number of seasons",
+    "expected_metric": "min_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    MIN(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)) AS min_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 134,
+    "prompt": "highest season count for a show",
+    "expected_metric": "max_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT title, duration, release_year\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%')\n                ORDER BY CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) DESC\n                LIMIT 1;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 135,
+    "prompt": "average seasons of shows",
+    "expected_metric": "average_seasons",
+    "intent": "Movie & TV Content Duration Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT \n                    COUNT(*) AS total_tv_shows,\n                    ROUND(AVG(CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER)), 2) AS average_tv_seasons\n                FROM silver.silver_titles\n                WHERE type = 'TV Show' AND (duration LIKE '%Season%' OR duration LIKE '%Seasons%');",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 136,
+    "prompt": "define content age",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 137,
+    "prompt": "what is the meaning of content age",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 138,
+    "prompt": "explain the Gold layer",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 139,
+    "prompt": "what is the Gold schema",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 140,
+    "prompt": "explain Movie Ratio",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 141,
+    "prompt": "what does content age measure?",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 142,
+    "prompt": "explain medallion architecture",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 143,
+    "prompt": "how is movie ratio calculated?",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 144,
+    "prompt": "explain country assignment share",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 145,
+    "prompt": "what is scd type 2?",
+    "expected_metric": "support_query",
+    "intent": "Support Query",
+    "agents_used": [
+      "Orchestrator Router",
+      "Support Agent"
+    ],
+    "sql_query": null,
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 146,
+    "prompt": "how many movies exist in data warehouse?",
+    "expected_metric": "total_movies",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 147,
+    "prompt": "count of all tv shows",
+    "expected_metric": "total_tv_shows",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 148,
+    "prompt": "total distinct titles",
+    "expected_metric": "total_titles",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 149,
+    "prompt": "what is netflix total title count?",
+    "expected_metric": "total_titles",
+    "intent": "Simple Data Aggregation",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 150,
+    "prompt": "average age of netflix catalog",
+    "expected_metric": "average_content_age",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 151,
+    "prompt": "which country has second most content?",
+    "expected_metric": "top_5_countries",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 152,
+    "prompt": "top country for content production",
+    "expected_metric": "top_country",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT country_name, titles_count, percentage_share \n                FROM metadata.v_kpi_country_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 153,
+    "prompt": "what is US catalog share?",
+    "expected_metric": "top_country",
+    "intent": "General Data Analysis",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent"
+    ],
+    "sql_query": "SELECT * FROM metadata.v_kpi_general_summary;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 154,
+    "prompt": "most popular genre category",
+    "expected_metric": "top_genre",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT genre_name, titles_count \n                FROM metadata.v_kpi_genre_distribution \n                ORDER BY titles_count DESC \n                LIMIT 10;",
+    "status": "PASS",
+    "failure_reasons": []
+  },
+  {
+    "id": 155,
+    "prompt": "highest release year for netflix",
+    "expected_metric": "peak_release_year",
+    "intent": "Data Extraction & Visualization",
+    "agents_used": [
+      "Orchestrator Router",
+      "Data Agent",
+      "Insight Agent",
+      "Visualization Agent"
+    ],
+    "sql_query": "SELECT \n                    f.release_year,\n                    COUNT(DISTINCT f.title_key) AS total_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS movie_releases,\n                    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS tv_releases\n                FROM gold.fact_content f\n                JOIN gold.dim_type t ON f.type_key = t.type_key\n                JOIN gold.dim_country c ON f.country_key = c.country_key\n                WHERE f.release_year >= 1995 AND f.release_year <= 2021  \n                GROUP BY f.release_year\n                ORDER BY f.release_year ASC;",
+    "status": "PASS",
+    "failure_reasons": []
+  }
+]
