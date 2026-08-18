@@ -58,61 +58,58 @@ def run_ingestion(source_name: str = None):
         logger.error(f"Configuration load error: {str(e)}")
         sys.exit(1)
     
-    if not source_name:
-        source_name = config.get("ingestion", {}).get("active_source")
+    if not source_name or source_name.lower() in ["all", "multi"]:
+        sources_to_ingest = ["netflix_csv", "netflix_json", "netflix_xml"]
+    elif "," in source_name:
+        sources_to_ingest = [s.strip() for s in source_name.split(",")]
+    else:
+        sources_to_ingest = [source_name]
         
-    logger.info(f"Starting ingestion process for source: {source_name}")
-    
-    source_config = config.get("ingestion", {}).get("sources", {}).get(source_name)
-    if not source_config:
-        logger.critical(f"Ingestion source '{source_name}' configuration not found.")
-        sys.exit(1)
-
-    load_type = source_config.get("load_type", "FULL").upper()
-    source_path = source_config.get("path") or source_config.get("url") or source_config.get("table", "unknown")
+    logger.info(f"Starting ingestion process for sources: {sources_to_ingest}")
     bronze_dir = config.get("storage", {}).get("bronze_dir")
     
-    # Destination directory inside the Bronze layer
-    dest_path = os.path.join(bronze_dir, f"bronze_{source_name}")
-    
     # Initialize Spark Session
-    spark = init_spark(f"Ingest_{source_name}")
-    
-    # Generate unique Batch ID
-    batch_id = str(uuid.uuid4())
+    spark = init_spark("Ingest_Raw_MultiSource")
+    last_batch_id = None
     
     try:
-        # Get reader instance
-        reader = IngestionSourceFactory.get_reader(source_name, config)
-        
-        # Read raw data
-        logger.info(f"Fetching raw data from source '{source_name}'...")
-        df_raw = reader.read(spark)
-        
-        # Check rows count
-        row_count = df_raw.count()
-        logger.info(f"Raw data read successfully. Count: {row_count} rows.")
-        
-        # Capture metadata / audit columns without altering existing data
-        df_bronze = df_raw \
-            .withColumn("_batch_id", lit(batch_id)) \
-            .withColumn("_ingested_at", current_timestamp()) \
-            .withColumn("_source_path", lit(source_path)) \
-            .withColumn("_load_type", lit(load_type))
+        for src_name in sources_to_ingest:
+            source_config = config.get("ingestion", {}).get("sources", {}).get(src_name)
+            if not source_config:
+                logger.warning(f"Ingestion source '{src_name}' configuration not found. Skipping...")
+                continue
+
+            load_type = source_config.get("load_type", "FULL").upper()
+            source_path = source_config.get("path") or source_config.get("url") or source_config.get("table", "unknown")
+            dest_path = os.path.join(bronze_dir, f"bronze_{src_name}")
+            batch_id = str(uuid.uuid4())
+            last_batch_id = batch_id
             
-        # Determine write mode: Overwrite for FULL refreshed loads, Append for INCREMENTAL loads
-        write_mode = "overwrite" if load_type == "FULL" else "append"
-        logger.info(f"Writing to Bronze Parquet at: {dest_path} using mode '{write_mode}'")
-        
-        # Write to Bronze Parquet
-        df_bronze.write \
-            .mode(write_mode) \
-            .format("parquet") \
-            .save(dest_path)
+            # Get reader instance
+            reader = IngestionSourceFactory.get_reader(src_name, config)
+            logger.info(f"Fetching raw data from source '{src_name}'...")
+            df_raw = reader.read(spark)
             
-        logger.info(f"Ingestion completed successfully for batch: {batch_id}")
-        print(f"INGESTION_SUCCESS: batch_id={batch_id}, rows={row_count}")
-        
+            row_count = df_raw.count()
+            logger.info(f"Raw data read successfully for {src_name}. Count: {row_count} rows.")
+            
+            df_bronze = df_raw \
+                .withColumn("_batch_id", lit(batch_id)) \
+                .withColumn("_ingested_at", current_timestamp()) \
+                .withColumn("_source_path", lit(source_path)) \
+                .withColumn("_load_type", lit(load_type))
+                
+            write_mode = "overwrite" if load_type == "FULL" else "append"
+            logger.info(f"Writing to Bronze Parquet at: {dest_path} using mode '{write_mode}'")
+            
+            df_bronze.write \
+                .mode(write_mode) \
+                .format("parquet") \
+                .save(dest_path)
+                
+            logger.info(f"Ingestion completed for source '{src_name}', batch: {batch_id}")
+            print(f"INGESTION_SUCCESS: source={src_name}, batch_id={batch_id}, rows={row_count}")
+            
     except IngestionException as ie:
         logger.error(f"Ingestion framework error: {str(ie)}")
         print(f"INGESTION_FAILED: {str(ie)}")
@@ -127,6 +124,6 @@ def run_ingestion(source_name: str = None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Netflix Data Engineering Landing Ingestor")
-    parser.add_argument("--source", type=str, help="Override active source configured in pipeline_config.yaml")
+    parser.add_argument("--source", type=str, help="Ingestion source name (e.g. netflix_csv, netflix_json, netflix_xml, or all)")
     args = parser.parse_args()
     run_ingestion(args.source)

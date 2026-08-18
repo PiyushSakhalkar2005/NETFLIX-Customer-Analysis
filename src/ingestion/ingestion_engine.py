@@ -67,7 +67,7 @@ class JSONReader(BaseReader):
             raise IngestionException(f"Failed to read JSON from {path}: {str(e)}") from e
 
 class XMLReader(BaseReader):
-    """Reads XML datasets. Assumes the spark-xml package is loaded."""
+    """Reads XML datasets using spark-xml or Python standard library ElementTree parser fallback."""
     def read(self, spark: SparkSession) -> DataFrame:
         path = self.config.get("path")
         options = self.config.get("options", {})
@@ -78,11 +78,32 @@ class XMLReader(BaseReader):
 
         try:
             return spark.read.format("xml").options(**options).load(path)
-        except Exception as e:
-            raise IngestionException(
-                f"Failed to read XML from {path}. Ensure 'com.databricks:spark-xml' package is available. "
-                f"Error: {str(e)}"
-            ) from e
+        except Exception as spark_xml_err:
+            logger.info("spark-xml format not available in local Spark context. Using Python ElementTree parser fallback...")
+            try:
+                import xml.etree.ElementTree as ET
+                import json
+
+                tree = ET.parse(path)
+                root = tree.getroot()
+                row_tag = options.get("rowTag", "show")
+                rows = []
+                for elem in root.findall(row_tag):
+                    row = {child.tag: (child.text if child.text is not None else "") for child in elem}
+                    rows.append(row)
+                if not rows:
+                    for child_elem in root:
+                        row = {c.tag: (c.text if c.text is not None else "") for c in child_elem}
+                        rows.append(row)
+
+                temp_json_path = os.path.join(os.path.dirname(path), "netflix_titles_converted_xml.json")
+                with open(temp_json_path, "w", encoding="utf-8") as f:
+                    for r in rows:
+                        f.write(json.dumps(r) + "\n")
+
+                return spark.read.json(temp_json_path)
+            except Exception as fallback_err:
+                raise IngestionException(f"Failed to parse XML from {path}: {str(fallback_err)}") from fallback_err
 
 class PostgreSQLReader(BaseReader):
     """Reads raw tables from PostgreSQL using JDBC connection."""

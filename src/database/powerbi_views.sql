@@ -3,13 +3,20 @@
 -- 1. View for General Content Summary Metrics (Total Titles, Movies vs TV Shows, Average Age)
 DROP VIEW IF EXISTS metadata.v_kpi_general_summary CASCADE;
 CREATE VIEW metadata.v_kpi_general_summary AS
+WITH distinct_titles AS (
+    SELECT DISTINCT title_key, content_age
+    FROM gold.fact_content
+)
 SELECT 
-    COUNT(DISTINCT title_key) AS total_titles,
-    SUM(CASE WHEN t.type = 'Movie' THEN 1 ELSE 0 END) AS total_movies,
-    SUM(CASE WHEN t.type = 'TV Show' THEN 1 ELSE 0 END) AS total_tv_shows,
-    ROUND(AVG(content_age), 1) AS average_content_age
+    COUNT(DISTINCT f.title_key) AS total_titles,
+    COUNT(DISTINCT CASE WHEN t.type = 'Movie' THEN f.title_key END) AS total_movies,
+    COUNT(DISTINCT CASE WHEN t.type = 'TV Show' THEN f.title_key END) AS total_tv_shows,
+    ROUND((SELECT AVG(content_age) FROM distinct_titles), 1) AS average_content_age
 FROM gold.fact_content f
-JOIN gold.dim_type t ON f.type_key = t.type_key;
+JOIN gold.dim_type t
+    ON f.type_key = t.type_key;
+
+
 
 -- 2. View for Content by Country (Top Countries KPI Map/Bar)
 DROP VIEW IF EXISTS metadata.v_kpi_country_distribution CASCADE;

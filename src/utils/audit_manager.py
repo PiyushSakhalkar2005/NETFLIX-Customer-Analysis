@@ -51,26 +51,34 @@ class AuditManager:
             logger.error(f"AuditManager failed to write log file {file_path}: {str(e)}")
             # Fail silently as per requirements: "If metadata update fails, the pipeline should continue while logging the error."
             
-    def start_run(self, pipeline_run_id: str, pipeline_name: str, batch_id: str) -> Dict[str, Any]:
+    def start_run(self, pipeline_run_id: str, pipeline_name: str, batch_id: str, execution_mode: str = "INCREMENTAL") -> Dict[str, Any]:
         """Registers the start of a pipeline run execution."""
-        logger.info(f"Registering pipeline run start: run_id={pipeline_run_id}, name={pipeline_name}")
+        logger.info(f"Registering pipeline run start: run_id={pipeline_run_id}, name={pipeline_name}, mode={execution_mode}")
         
         run_record = {
             "pipeline_run_id": pipeline_run_id,
             "pipeline_name": pipeline_name,
             "batch_id": batch_id,
+            "execution_mode": execution_mode.upper(),
             "start_time": datetime.utcnow().isoformat(),
             "end_time": None,
             "execution_duration_ms": 0,
             "execution_status": "RUNNING",
             "execution_host": socket.gethostname(),
-            "spark_application_id": None
+            "spark_application_id": None,
+            "watermark_timestamp": None,
+            "rows_read": 0,
+            "rows_inserted": 0,
+            "rows_updated": 0,
+            "rows_skipped": 0,
+            "rows_rejected": 0,
+            "error_details": None
         }
         
         try:
             runs = self._read_json(self.runs_file)
             # Remove any existing run with same ID to prevent duplicates
-            runs = [r for r in runs if r["pipeline_run_id"] != pipeline_run_id]
+            runs = [r for r in runs if r.get("pipeline_run_id") != pipeline_run_id]
             runs.append(run_record)
             self._write_json(self.runs_file, runs)
         except Exception as e:
@@ -78,8 +86,11 @@ class AuditManager:
             
         return run_record
         
-    def end_run(self, pipeline_run_id: str, status: str, spark_app_id: str = None) -> Dict[str, Any]:
-        """Marks a pipeline run execution as completed (SUCCESS, FAILED, etc.) and records duration."""
+    def end_run(self, pipeline_run_id: str, status: str, spark_app_id: str = None, 
+                watermark_timestamp: str = None, rows_read: int = 0, rows_inserted: int = 0, 
+                rows_updated: int = 0, rows_skipped: int = 0, rows_rejected: int = 0, 
+                error_details: str = None) -> Dict[str, Any]:
+        """Marks a pipeline run execution as completed (SUCCESS, FAILED, etc.) and records duration and metrics."""
         logger.info(f"Registering pipeline run end: run_id={pipeline_run_id}, status={status}")
         
         try:
@@ -89,6 +100,13 @@ class AuditManager:
                     r["end_time"] = datetime.utcnow().isoformat()
                     r["execution_status"] = status
                     r["spark_application_id"] = spark_app_id
+                    r["watermark_timestamp"] = watermark_timestamp
+                    r["rows_read"] = rows_read
+                    r["rows_inserted"] = rows_inserted
+                    r["rows_updated"] = rows_updated
+                    r["rows_skipped"] = rows_skipped
+                    r["rows_rejected"] = rows_rejected
+                    r["error_details"] = error_details
                     
                     # Compute duration
                     start_dt = datetime.fromisoformat(r["start_time"])

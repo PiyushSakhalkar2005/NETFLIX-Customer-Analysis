@@ -54,7 +54,7 @@ with DAG(
     load_bronze = SparkSubmitOperator(
         task_id="load_bronze_layer",
         application="/opt/airflow/src/bronze/run_bronze_load.py",
-        application_args=["--source", "netflix_csv"],
+        application_args=["--source", "all"],
         conn_id="spark_default",
         verbose=True,
     )

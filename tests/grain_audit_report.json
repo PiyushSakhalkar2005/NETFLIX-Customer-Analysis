@@ -1,0 +1,61 @@
+{
+  "audit_timestamp": "2026-08-18T14:32:00Z",
+  "target_database": "netflix_dw_new",
+  "entities_audited": [
+    {
+      "entity": "silver.silver_titles",
+      "authoritative_grain": "Distinct Title (1 row per show_id)",
+      "total_rows": 8807,
+      "distinct_titles": 8807,
+      "duplication_factor": 1.0,
+      "risk_level": "NONE",
+      "vulnerable_to_explosion": false
+    },
+    {
+      "entity": "gold.fact_content",
+      "authoritative_grain": "Exploded Fact (Title x Country x Genre x Director x Rating x Release Year)",
+      "total_rows": 25879,
+      "distinct_titles": 8807,
+      "duplication_factor": 2.938,
+      "risk_level": "HIGH",
+      "vulnerable_to_explosion": true,
+      "vulnerable_metrics": [
+        "total_titles (if COUNT(*) is used instead of COUNT(DISTINCT title_key))",
+        "total_movies (if SUM(1) is used without DISTINCT)",
+        "total_tv_shows (if SUM(1) is used without DISTINCT)",
+        "average_content_age (if AVG(content_age) is run directly over 25,879 rows -> 12.1 vs 11.8)",
+        "average_movie_duration (if AVG(duration_minutes) is run over exploded rows -> 103.2 min vs 99.5 min)"
+      ]
+    },
+    {
+      "entity": "metadata.v_kpi_general_summary",
+      "authoritative_grain": "Portfolio Summary (Single row)",
+      "total_rows": 1,
+      "distinct_titles": 8807,
+      "duplication_factor": 1.0,
+      "risk_level": "VERIFIED_SAFE",
+      "vulnerable_to_explosion": false,
+      "current_ddl_status": "CORRECTED (Uses COUNT(DISTINCT f.title_key) and distinct_titles CTE for age)"
+    },
+    {
+      "entity": "metadata.v_kpi_country_distribution",
+      "authoritative_grain": "Country Level (Distinct title_key count per country)",
+      "total_rows": 128,
+      "distinct_titles": 10012,
+      "duplication_factor": 1.136,
+      "risk_level": "MEDIUM",
+      "vulnerable_to_explosion": false,
+      "notes": "Co-productions cause sum of titles_count across countries (10,012) to exceed catalog titles (8,807). Explicitly documented in AI response as Country Assignment Share."
+    },
+    {
+      "entity": "metadata.v_kpi_genre_distribution",
+      "authoritative_grain": "Genre Level (Distinct title_key count per genre)",
+      "total_rows": 42,
+      "distinct_titles": 19344,
+      "duplication_factor": 2.196,
+      "risk_level": "MEDIUM",
+      "vulnerable_to_explosion": false,
+      "notes": "Multi-genre titles produce multiple genre assignments. Uses COUNT(DISTINCT title_key) per genre."
+    }
+  ]
+}

@@ -8,7 +8,7 @@ class ConfigLoader:
 
     @classmethod
     def load(cls, config_path: str = None) -> Dict[str, Any]:
-        if cls._config is not None:
+        if config_path is None and cls._config is not None:
             return cls._config
         
         if config_path is None:
@@ -25,9 +25,21 @@ class ConfigLoader:
         # Parse YAML
         config = yaml.safe_load(content)
 
+        # Resolve base_path relative to project root if relative or invalid
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        if "storage" in config and "base_path" in config["storage"]:
+            base_path = config["storage"]["base_path"]
+            if not os.path.isabs(base_path) or not os.path.exists(base_path):
+                resolved_path = os.path.abspath(os.path.join(project_root, base_path.lstrip("/\\")))
+                if not os.path.exists(resolved_path) and os.path.exists(os.path.join(project_root, "data")):
+                    resolved_path = os.path.join(project_root, "data")
+                config["storage"]["base_path"] = resolved_path.replace("\\", "/")
+
         # Resolve variables like ${storage.base_path}
-        cls._config = cls._resolve_variables(config)
-        return cls._config
+        resolved = cls._resolve_variables(config)
+        if config_path is None:
+            cls._config = resolved
+        return resolved
 
     @classmethod
     def _resolve_variables(cls, config: Any) -> Any:

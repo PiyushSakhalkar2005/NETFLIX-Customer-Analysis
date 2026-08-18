@@ -7,12 +7,20 @@ CREATE TABLE IF NOT EXISTS metadata.pipeline_runs (
     pipeline_run_id VARCHAR(100) PRIMARY KEY,
     pipeline_name VARCHAR(100) NOT NULL,
     batch_id VARCHAR(100) NOT NULL,
+    execution_mode VARCHAR(20) DEFAULT 'INCREMENTAL',
     start_time TIMESTAMP NOT NULL,
     end_time TIMESTAMP,
     execution_duration_ms INT,
     execution_status VARCHAR(20) NOT NULL, -- SUCCESS, FAILED, SKIPPED
     execution_host VARCHAR(100),
     spark_application_id VARCHAR(100),
+    watermark_timestamp TIMESTAMP,
+    rows_read INT DEFAULT 0,
+    rows_inserted INT DEFAULT 0,
+    rows_updated INT DEFAULT 0,
+    rows_skipped INT DEFAULT 0,
+    rows_rejected INT DEFAULT 0,
+    error_details TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
