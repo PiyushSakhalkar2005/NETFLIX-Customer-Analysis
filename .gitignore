@@ -89,3 +89,9 @@ scratch/
 .DS_Store
 Thumbs.db
 
+
+
+# Database migration backups
+deployment/db_backup/
+*.dump
+*.backup
