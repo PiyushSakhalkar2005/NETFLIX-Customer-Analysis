@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:8000/api/v1";
+const API_BASE = "https://netflix-agentic-ai.onrender.com/api/v1";
 let activeChartInstances = {};
 
 document.addEventListener("DOMContentLoaded", () => {
